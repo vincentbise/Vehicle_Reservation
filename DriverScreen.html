@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Driver Dashboard</title>
+    <link rel="icon" href="images/logo.png">
+
+    <style>
+        * {
+            margin: 0;
+            font-family: Arial;
+        }
+
+        /* HEADER */
+        header{
+            background-color: maroon;
+            height: 80px;
+            display: flex;
+
+        }
+
+        .menu-icon {
+            display: none;
+            font-size: 22px;
+            color: white;
+            cursor: pointer;
+            margin: 25px 10px 0 20px;
+        }
+
+        .logo {
+            width: 50px;
+            margin: 15px 30px auto 40px;
+        }
+
+        header h4{
+            color: whitesmoke;
+            margin: 30px 0;
+        }
+
+        .profile {
+            width: 40px;
+            height: 40px;
+            margin: 20px 70px 0 auto;
+            cursor: pointer;
+        }
+
+        /* MAIN LAYOUT */
+        .main-container {
+            display: flex;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 250px;
+            flex-shrink: 0;
+            min-height: calc(100vh - 80px);
+            background: whitesmoke;
+            box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sidebar h1 {
+            font-size: 28px;
+            color: maroon;
+        }
+
+        /* TAB BUTTONS */
+        .tab {
+            color: maroon;
+            background-color: white;
+            font-weight: 600;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 1px 7px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease;
+            text-align: left;
+        }
+
+        .tab:hover {
+            transform: scale(1.03);
+        }
+
+        .active-tab {
+            background-color: maroon;
+            color: white;
+        }
+
+        /* CONTENT */
+        .content-area {
+            flex: 1;
+            padding: 40px;
+        }
+
+        .trip-content{
+            display: none;
+        }
+
+        #assigned {
+            display: block;
+        }
+
+        /* TABLE */
+        .trip-table{
+            width: 100%;
+            text-align: center;
+            border-collapse: collapse;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 1px 7px rgba(0,0,0,0.2);
+        }
+
+        .trip-table th {
+            background-color: maroon;
+            color: white;
+            padding: 20px;
+        }
+
+        .trip-table td {
+            background-color: whitesmoke;
+            padding: 20px;
+        }
+
+        /* BUTTON STATES */
+        .start-action button {
+            background-color: maroon;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .notavailable-action button {
+            background-color: gray;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .completed-action button {
+            background-color: green;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        /* IN PROGRESS */
+        .inprogress-container {
+            background-color: whitesmoke;
+            border: 2px solid maroon;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 1px 7px rgba(0,0,0,0.2);
+        }
+
+        .inprogress-container h2, h5 {
+            color: maroon;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .path-line {
+            width: 600px;
+            border-top:2px dashed maroon;
+            position:relative;
+            margin: 50px auto;
+        }
+
+        .pickup {
+            position:absolute;
+            top:-45px;
+            left: -18px;
+            width:40px;
+        }
+
+        .destination {
+            position:absolute;
+            top:-45px;
+            right: -18px;
+            width:40px;
+        }
+
+        .bus {
+            position:absolute;
+            top:-29px;
+            left:0;
+            width:80px;
+            animation: drive 8s ease-in-out infinite;
+        }
+
+        @keyframes drive {
+            0% { transform: translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateX(535px); opacity: 0; }
+        }
+
+        .trip-details{
+            display: grid;
+            grid-template-columns: max-content max-content;
+            row-gap: 5px;
+            text-align: left;
+        }
+
+        .trip-details p{
+            margin: 20px 0 0 220px;
+        }
+
+        .complete-trip {
+            background-color: green;
+            color: white;
+            margin: 50px 0 0 450px;
+            padding: 15px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 1px 7px rgba(0,0,0,0.2);
+        }
+
+        .complete-trip:hover {
+            background-color: darkgreen;
+        }
+
+        /* =========================
+           MOBILE SCREENS
+        ========================= */
+        @media (max-width: 768px) {
+
+            /* show hamburger */
+            .menu-icon {
+                display: block;
+            }
+
+            header h4 {
+                font-size: 13px;
+                margin: auto;
+            }
+
+            .logo {
+                width: 40px;
+                margin: auto 10px;
+            }
+
+            .profile {
+                width: 32px;
+                height: 32px;
+                margin: auto 10px;
+            }
+
+            /* layout becomes vertical */
+            .main-container {
+                flex-direction: column;
+            }
+
+            /* hide sidebar by default */
+            .sidebar {
+                position: fixed;
+                top: 80px;
+                left: -260px;
+                width: 220px;
+                height: calc(100vh - 80px);
+                transition: left 0.3s ease;
+                z-index: 1000;
+            }
+
+            /* when active */
+            .sidebar.show {
+                left: 0;
+            }
+
+            .content-area {
+                padding: 15px;
+            }
+
+            /* table responsiveness */
+            .trip-table th,
+            .trip-table td {
+                padding: 10px;
+                font-size: 8px;
+            }
+
+            .tab {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            .start-action button,
+            .notavailable-action button, .complete-trip button {
+                padding: 7px;
+                font-size: 8px;
+            }
+
+            /* in-progress section */
+            .inprogress-container {
+                padding: 20px;
+            }
+
+            .inprogress-container h2 {
+                font-size: 16px;
+            }
+
+            .inprogress-container h5 {
+                font-size: 12px;
+            }
+
+            .path-line {
+                width: 100%;
+                max-width: 280px;
+            }
+
+            .bus {
+                width: 50px;
+            }
+
+            .pickup,
+            .destination {
+                width: 30px;
+                top: -30px;
+            }
+
+            @keyframes drive {
+                100% { transform: translateX(240px); opacity: 0; }
+            }
+
+            .trip-details {
+                grid-template-columns: 1fr;
+            }
+
+            .trip-details p {
+                margin: 8px 0;
+                font-size: 12px;
+            }
+
+            .complete-trip {
+                margin: 20px auto;
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+        }
+
+
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="menu-icon" onclick="toggleSidebar()">☰</div>
+    <img src="images/logo.png" class="logo">
+    <h4>USeP Vehicle Reservation System</h4>
+    <img src="images/profile.png" class="profile">
+</header>
+
+<div class="main-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <h1><strong>MY TRIPS</strong></h1>
+        <button class="tab active-tab" onclick="showTab(event,'assigned')">Assigned</button>
+        <button class="tab" onclick="showTab(event,'inprogress')">In Progress</button>
+        <button class="tab" onclick="showTab(event,'completed')">Completed</button>
+    </aside>
+
+    <!-- CONTENT -->
+    <div class="content-area">
+
+        <!-- ASSIGNED -->
+        <section id="assigned" class="trip-content">
+            <table class="trip-table">
+                <tr>
+                    <th>TRIP ID</th>
+                    <th>DESTINATION</th>
+                    <th>DATE</th>
+                    <th>TIME</th>
+                    <th>ACTION</th>
+                </tr>
+
+                <tr>
+                    <td>TRP-003</td>
+                    <td>USeP Mabini</td>
+                    <td>04-01-2026</td>
+                    <td>9:00 AM</td>
+                    <td class="start-action"><button>Start Trip</button></td>
+                </tr>
+
+                <tr>
+                    <td>TRP-004</td>
+                    <td>USeP Obrero</td>
+                    <td>04-02-2026</td>
+                    <td>9:00 AM</td>
+                    <td class="notavailable-action"><button>Not Available Yet</button></td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- IN PROGRESS -->
+        <section id="inprogress" class="trip-content">
+            <div class="inprogress-container">
+                <h2><strong>ACTIVE TRIP IN PROGRESS</strong></h2>
+                <h5>Started at 7:00 AM</h5>
+
+                <div class="path-line">
+                    <img src="images/destination.png" class="pickup">
+                    <img src="images/bus.png" class="bus">
+                    <img src="images/destination.png" class="destination">
+                </div>
+
+                <div class="trip-details">
+                    <p><strong>Trip ID:</strong> TRP-003</p>
+                    <p><strong>Requester:</strong> Jobeth Olivar</p>
+                    <p><strong>Destination:</strong> USeP Obrero</p>
+                    <p><strong>Expected Return:</strong> 10:00 AM</p>
+                    <p><strong>Passengers:</strong> 15</p>
+                    <p><strong>Vehicle:</strong> Toyota HiAce</p>
+                </div>
+
+                <button class="complete-trip">Complete Trip</button>
+            </div>
+        </section>
+
+        <!-- COMPLETED -->
+        <section id="completed" class="trip-content">
+            <table class="trip-table">
+                <tr>
+                    <th>TRIP ID</th>
+                    <th>DESTINATION</th>
+                    <th>DATE</th>
+                    <th>ACTION</th>
+                </tr>
+
+                <tr>
+                    <td>TRP-001</td>
+                    <td>USeP Obrero</td>
+                    <td>04-01-2026</td>
+                    <td class="completed-action"><button>Completed</button></td>
+                </tr>
+            </table>
+        </section>
+
+    </div>
+
+</div>
+
+<script>
+    function showTab(event, tabName){
+
+        // hide all the tab contents
+        let tabs = document.querySelectorAll(".trip-content");
+        tabs.forEach(function(tab){
+            tab.style.display = "none";
+        });
+
+        // ishow ang tab nga na click
+        document.getElementById(tabName).style.display = "block";
+
+        // remove highlight
+        let buttons = document.querySelectorAll(".tab");
+        buttons.forEach(function(btn){
+            btn.classList.remove("active-tab");
+        });
+
+        // highlight the clicked button
+        event.target.classList.add("active-tab");
+    }
+</script>
+
+<script>
+    function toggleSidebar() {
+        document.querySelector(".sidebar").classList.toggle("show");
+    }
+</script>
+</body>
+</html>
