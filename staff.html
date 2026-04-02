@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Staff Dashboard</title>
+<link rel="icon" href="images/logo.png">
+
+<style>
+* {
+    margin: 0;
+    font-family: Arial;
+}
+
+/* HEADER */
+header{
+    background-color: maroon;
+    height: 80px;
+    display: flex;
+}
+
+.menu-icon {
+    display: none;
+    font-size: 22px;
+    color: white;
+    cursor: pointer;
+    margin: 25px 10px 0 20px;
+}
+
+.logo {
+    width: 50px;
+    margin: 15px 30px auto 40px;
+}
+
+header h4{
+    color: whitesmoke;
+    margin: 30px 0;
+}
+
+.profile {
+    width: 40px;
+    height: 40px;
+    margin: 20px 70px 0 auto;
+    cursor: pointer;
+}
+
+/* MAIN LAYOUT */
+.main-container {
+    display: flex;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 250px;
+    flex-shrink: 0;
+    min-height: calc(100vh - 80px);
+    background: whitesmoke;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.sidebar h1 {
+    font-size: 28px;
+    color: maroon;
+}
+
+/* TAB BUTTONS */
+.tab {
+    color: maroon;
+    background-color: white;
+    font-weight: 600;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 1px 7px rgba(0,0,0,0.2);
+    transition: transform 0.2s ease;
+    text-align: left;
+}
+
+.tab:hover {
+    transform: scale(1.03);
+}
+
+.active-tab {
+    background-color: maroon;
+    color: white;
+}
+
+/* CONTENT */
+.content-area {
+    flex: 1;
+    padding: 40px;
+}
+
+.trip-content {
+    display: none;
+}
+
+#pending {
+    display: block;
+}
+
+/* TABLE */
+.trip-table {
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 1px 7px rgba(0,0,0,0.2);
+}
+
+.trip-table th {
+    background-color: maroon;
+    color: white;
+    padding: 20px;
+}
+
+.trip-table td {
+    background-color: whitesmoke;
+    padding: 20px;
+}
+
+/* BUTTON STATES */
+.approve-action button {
+    background-color: maroon;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.deny-action button {
+    background-color: gray;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.completed-action button {
+    background-color: green;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.cancelled-action button {
+    background-color: #c62828;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+/* MODAL (same style as inprogress-container) */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-overlay.show {
+    display: flex;
+}
+
+.modal-container {
+    background-color: whitesmoke;
+    border: 2px solid maroon;
+    border-radius: 20px;
+    padding: 50px;
+    width: 500px;
+    max-width: 95vw;
+    box-shadow: 0 1px 7px rgba(0,0,0,0.2);
+}
+
+.modal-container h2 {
+    color: maroon;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.modal-container h5 {
+    color: maroon;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.modal-field {
+    margin-bottom: 16px;
+    text-align: left;
+}
+
+.modal-field label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    font-size: 13px;
+}
+
+.modal-field select,
+.modal-field textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid #ccc;
+    border-radius: 10px;
+    font-family: Arial;
+    font-size: 13px;
+    background: white;
+    outline: none;
+}
+
+.modal-field textarea {
+    resize: vertical;
+    min-height: 70px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.modal-actions button {
+    background-color: gray;
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: Arial;
+    box-shadow: 0 1px 7px rgba(0,0,0,0.2);
+}
+
+.btn-confirm-approve {
+    background-color: maroon !important;
+}
+
+.btn-confirm-deny {
+    background-color: #c62828 !important;
+}
+
+/* MONITORING (same style as inprogress-container) */
+.monitoring-container {
+    background-color: whitesmoke;
+    border: 2px solid maroon;
+    border-radius: 20px;
+    padding: 50px;
+    box-shadow: 0 1px 7px rgba(0,0,0,0.2);
+    margin-bottom: 30px;
+}
+
+.monitoring-container h2 {
+    color: maroon;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* =========================
+   MOBILE SCREENS
+========================= */
+@media (max-width: 768px) {
+
+    /* show hamburger */
+    .menu-icon {
+        display: block;
+    }
+
+    header h4 {
+        font-size: 13px;
+        margin: auto;
+    }
+
+    .logo {
+        width: 40px;
+        margin: auto 10px;
+    }
+
+    .profile {
+        width: 32px;
+        height: 32px;
+        margin: auto 10px;
+    }
+
+    /* layout becomes vertical */
+    .main-container {
+        flex-direction: column;
+    }
+
+    /* hide sidebar by default */
+    .sidebar {
+        position: fixed;
+        top: 80px;
+        left: -260px;
+        width: 220px;
+        height: calc(100vh - 80px);
+        transition: left 0.3s ease;
+        z-index: 1000;
+    }
+
+    /* when active */
+    .sidebar.show {
+        left: 0;
+    }
+
+    .content-area {
+        padding: 15px;
+    }
+
+    /* table responsiveness */
+    .trip-table th,
+    .trip-table td {
+        padding: 10px;
+        font-size: 8px;
+    }
+
+    .tab {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .approve-action button,
+    .deny-action button {
+        padding: 7px;
+        font-size: 8px;
+    }
+
+    /* monitoring section */
+    .monitoring-container {
+        padding: 20px;
+    }
+
+    .monitoring-container h2 {
+        font-size: 16px;
+    }
+
+    /* modal */
+    .modal-container {
+        padding: 20px;
+    }
+
+    .modal-container h2 {
+        font-size: 16px;
+    }
+
+    .modal-container h5 {
+        font-size: 12px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- APPROVE MODAL -->
+<div class="modal-overlay" id="approveModal">
+    <div class="modal-container">
+        <h2><strong>APPROVE RESERVATION</strong></h2>
+        <h5>Assign a vehicle and driver before approving.</h5>
+        <div class="modal-field">
+            <label>Assign Vehicle</label>
+            <select>
+                <option>Toyota HiAce – SJV 2201</option>
+                <option>Toyota Coaster – ABX 1109</option>
+                <option>Isuzu Elf – TRC 4450</option>
+            </select>
+        </div>
+        <div class="modal-field">
+            <label>Assign Driver</label>
+            <select>
+                <option>Rodrigo Dela Cruz</option>
+                <option>Manuel Santos</option>
+                <option>Eduardo Reyes</option>
+            </select>
+        </div>
+        <div class="modal-field">
+            <label>Notes (optional)</label>
+            <textarea placeholder="Add instructions for the driver…"></textarea>
+        </div>
+        <div class="modal-actions">
+            <button onclick="closeModal('approveModal')">Cancel</button>
+            <button class="btn-confirm-approve" onclick="confirmApprove()">Confirm Approval</button>
+        </div>
+    </div>
+</div>
+
+<!-- DENY MODAL -->
+<div class="modal-overlay" id="denyModal">
+    <div class="modal-container">
+        <h2><strong>DENY RESERVATION</strong></h2>
+        <h5>Provide a reason so the requester is informed.</h5>
+        <div class="modal-field">
+            <label>Reason for Denial</label>
+            <select>
+                <option>No available vehicle</option>
+                <option>No available driver</option>
+                <option>Scheduling conflict</option>
+                <option>Incomplete request details</option>
+                <option>Other</option>
+            </select>
+        </div>
+        <div class="modal-field">
+            <label>Additional Notes</label>
+            <textarea placeholder="Explain the denial to the requester…"></textarea>
+        </div>
+        <div class="modal-actions">
+            <button onclick="closeModal('denyModal')">Cancel</button>
+            <button class="btn-confirm-deny" onclick="confirmDeny()">Deny Request</button>
+        </div>
+    </div>
+</div>
+
+<header>
+    <div class="menu-icon" onclick="toggleSidebar()">☰</div>
+    <img src="images/logo.png" class="logo">
+    <h4>USeP Vehicle Reservation System</h4>
+    <img src="images/profile.png" class="profile">
+</header>
+
+<div class="main-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <h1><strong>RESERVATIONS</strong></h1>
+        <button class="tab active-tab" onclick="showTab(event,'pending')">Pending</button>
+        <button class="tab" onclick="showTab(event,'approved')">Approved</button>
+        <button class="tab" onclick="showTab(event,'monitoring')">Monitoring</button>
+        <button class="tab" onclick="showTab(event,'completed')">Completed</button>
+    </aside>
+
+    <!-- CONTENT -->
+    <div class="content-area">
+
+        <!-- PENDING -->
+        <section id="pending" class="trip-content">
+            <table class="trip-table">
+                <tr>
+                    <th>RES ID</th>
+                    <th>REQUESTER</th>
+                    <th>DESTINATION</th>
+                    <th>DATE</th>
+                    <th>TIME</th>
+                    <th>PASSENGERS</th>
+                    <th>APPROVE</th>
+                    <th>DENY</th>
+                </tr>
+                <tr>
+                    <td>RES-041</td>
+                    <td>Jobeth Olivar</td>
+                    <td>USeP Mabini</td>
+                    <td>04-04-2026</td>
+                    <td>8:00 AM</td>
+                    <td>20</td>
+                    <td class="approve-action"><button onclick="openModal('approveModal')">Approve</button></td>
+                    <td class="deny-action"><button onclick="openModal('denyModal')">Deny</button></td>
+                </tr>
+                <tr>
+                    <td>RES-042</td>
+                    <td>Mark Dalisay</td>
+                    <td>GSIS Davao</td>
+                    <td>04-05-2026</td>
+                    <td>7:30 AM</td>
+                    <td>35</td>
+                    <td class="approve-action"><button onclick="openModal('approveModal')">Approve</button></td>
+                    <td class="deny-action"><button onclick="openModal('denyModal')">Deny</button></td>
+                </tr>
+                <tr>
+                    <td>RES-043</td>
+                    <td>Lorena Castillo</td>
+                    <td>DOST XI Office</td>
+                    <td>04-07-2026</td>
+                    <td>9:00 AM</td>
+                    <td>8</td>
+                    <td class="approve-action"><button onclick="openModal('approveModal')">Approve</button></td>
+                    <td class="deny-action"><button onclick="openModal('denyModal')">Deny</button></td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- APPROVED -->
+        <section id="approved" class="trip-content">
+            <table class="trip-table">
+                <tr>
+                    <th>RES ID</th>
+                    <th>REQUESTER</th>
+                    <th>DESTINATION</th>
+                    <th>DATE</th>
+                    <th>VEHICLE</th>
+                    <th>DRIVER</th>
+                    <th>ACTION</th>
+                </tr>
+                <tr>
+                    <td>RES-038</td>
+                    <td>Ana Reyes</td>
+                    <td>USeP Obrero</td>
+                    <td>04-03-2026</td>
+                    <td>Toyota HiAce</td>
+                    <td>R. Dela Cruz</td>
+                    <td class="deny-action"><button>Cancel</button></td>
+                </tr>
+                <tr>
+                    <td>RES-039</td>
+                    <td>Carlos Mendoza</td>
+                    <td>CSC Davao City</td>
+                    <td>04-04-2026</td>
+                    <td>Toyota Coaster</td>
+                    <td>M. Santos</td>
+                    <td class="deny-action"><button>Cancel</button></td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- MONITORING -->
+        <section id="monitoring" class="trip-content">
+
+            <div class="monitoring-container">
+                <h2><strong>ACTIVE TRIPS</strong></h2>
+                <table class="trip-table">
+                    <tr>
+                        <th>RES ID</th>
+                        <th>REQUESTER</th>
+                        <th>DESTINATION</th>
+                        <th>DRIVER</th>
+                        <th>VEHICLE</th>
+                        <th>STARTED</th>
+                    </tr>
+                    <tr>
+                        <td>RES-035</td>
+                        <td>Jobeth Olivar</td>
+                        <td>USeP Obrero</td>
+                        <td>R. Dela Cruz</td>
+                        <td>Toyota HiAce</td>
+                        <td>7:00 AM</td>
+                    </tr>
+                    <tr>
+                        <td>RES-037</td>
+                        <td>Maria Santos</td>
+                        <td>DENR XI</td>
+                        <td>E. Reyes</td>
+                        <td>Isuzu Elf</td>
+                        <td>8:30 AM</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="monitoring-container">
+                <h2><strong>FLEET STATUS</strong></h2>
+                <table class="trip-table">
+                    <tr>
+                        <th>VEHICLE</th>
+                        <th>PLATE NO.</th>
+                        <th>STATUS</th>
+                    </tr>
+                    <tr>
+                        <td>Toyota HiAce</td>
+                        <td>SJV 2201</td>
+                        <td class="deny-action"><button style="cursor:default;">In Use</button></td>
+                    </tr>
+                    <tr>
+                        <td>Toyota Coaster</td>
+                        <td>ABX 1109</td>
+                        <td class="completed-action"><button style="cursor:default;">Available</button></td>
+                    </tr>
+                    <tr>
+                        <td>Isuzu Elf</td>
+                        <td>TRC 4450</td>
+                        <td class="deny-action"><button style="cursor:default;">In Use</button></td>
+                    </tr>
+                    <tr>
+                        <td>Mitsubishi L300</td>
+                        <td>DXV 8830</td>
+                        <td class="cancelled-action"><button style="cursor:default;">Maintenance</button></td>
+                    </tr>
+                </table>
+            </div>
+
+        </section>
+
+        <!-- COMPLETED -->
+        <section id="completed" class="trip-content">
+            <table class="trip-table">
+                <tr>
+                    <th>RES ID</th>
+                    <th>REQUESTER</th>
+                    <th>DESTINATION</th>
+                    <th>DATE</th>
+                    <th>DRIVER</th>
+                    <th>STATUS</th>
+                </tr>
+                <tr>
+                    <td>RES-030</td>
+                    <td>Rosa Bautista</td>
+                    <td>USeP Mabini</td>
+                    <td>04-01-2026</td>
+                    <td>R. Dela Cruz</td>
+                    <td class="completed-action"><button>Completed</button></td>
+                </tr>
+                <tr>
+                    <td>RES-029</td>
+                    <td>Felix Torres</td>
+                    <td>Davao City Hall</td>
+                    <td>03-31-2026</td>
+                    <td>M. Santos</td>
+                    <td class="completed-action"><button>Completed</button></td>
+                </tr>
+                <tr>
+                    <td>RES-028</td>
+                    <td>Diana Lim</td>
+                    <td>USeP Tagum</td>
+                    <td>03-30-2026</td>
+                    <td>E. Reyes</td>
+                    <td class="completed-action"><button>Completed</button></td>
+                </tr>
+                <tr>
+                    <td>RES-026</td>
+                    <td>Henry Cruz</td>
+                    <td>CHED Davao</td>
+                    <td>03-28-2026</td>
+                    <td>R. Dela Cruz</td>
+                    <td class="cancelled-action"><button>Cancelled</button></td>
+                </tr>
+            </table>
+        </section>
+
+    </div>
+
+</div>
+
+<script>
+function showTab(event, tabName){
+
+    // hide all tab contents
+    let tabs = document.querySelectorAll(".trip-content");
+    tabs.forEach(function(tab){
+        tab.style.display = "none";
+    });
+
+    // show the clicked tab
+    document.getElementById(tabName).style.display = "block";
+
+    // remove highlight
+    let buttons = document.querySelectorAll(".tab");
+    buttons.forEach(function(btn){
+        btn.classList.remove("active-tab");
+    });
+
+    // highlight the clicked button
+    event.target.classList.add("active-tab");
+}
+
+function toggleSidebar() {
+    document.querySelector(".sidebar").classList.toggle("show");
+}
+
+function openModal(id) {
+    document.getElementById(id).classList.add('show');
+}
+
+function closeModal(id) {
+    document.getElementById(id).classList.remove('show');
+}
+
+document.querySelectorAll('.modal-overlay').forEach(function(overlay) {
+    overlay.addEventListener('click', function(e) {
+        if (e.target === this) this.classList.remove('show');
+    });
+});
+
+function confirmApprove() {
+    closeModal('approveModal');
+    alert('Reservation approved!');
+}
+
+function confirmDeny() {
+    closeModal('denyModal');
+    alert('Reservation denied.');
+}
+</script>
+
+</body>
+</html>
