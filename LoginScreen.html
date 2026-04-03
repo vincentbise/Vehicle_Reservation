@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login – USeP Vehicle Reservation System</title>
+    <link rel="icon" href="images/logo.png">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: maroon;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
+            flex-shrink: 0;
+        }
+
+        .logo {
+            width: 50px;
+            margin-right: 15px;
+        }
+
+        header h4 {
+            color: whitesmoke;
+            font-size: 16px;
+        }
+
+        .main-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center; 
+            padding: 40px 80px;          
+            
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0%   { transform: translateY(0px); }
+            50%  { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .login-card {
+            opacity: 90%;
+            background: white;
+            border-radius: 20px;
+            border: 2px solid maroon;
+            box-shadow: 0 1px 10px rgba(0,0,0,0.6); 
+            padding: 50px 45px;
+            width: 100%;
+            max-width: 420px;
+            animation: fadeUp 0.4s ease, float 3s ease-in-out 0.4s infinite;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .card-header img {
+            width: 70px;
+            margin-bottom: 12px;
+        }
+
+        .card-header h2 {
+            color: maroon;
+            font-size: 30px;
+            margin-bottom: 4px;
+        }
+
+        .card-header p {
+            color: gray;
+            font-size: 13px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 7px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 13px 16px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            font-size: 14px;
+            color: #333;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-group input:focus {
+            border-color: maroon;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-right: 45px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: gray;
+            padding: 0;
+        }
+
+        .toggle-password img {
+            width: 18px;
+        }
+
+        .toggle-password:hover {
+            color: maroon;
+        }
+
+        .error-msg {
+            display: none;
+            background-color: #fde8e8;
+            color: darkred;
+            border: 1px solid #f5c2c2;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 13px;
+            margin-bottom: 18px;
+            text-align: center;
+        }
+
+        .error-msg.show {
+            display: block;
+        }
+
+        .login-btn {
+            width: 30%;
+            background-color: maroon;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 14px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            margin: auto;   
+            display: block;         
+        }
+
+        .login-btn:hover {
+            background-color: rgb(112, 1, 1);
+        }
+
+        .login-btn:active {
+            transform: scale(0.98);
+        }
+
+        .divider {
+            text-align: center;
+            color: #aaa;
+            font-size: 12px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 42%;
+            height: 1px;
+            background: #ddd;
+        }
+
+        .divider::before { left: 0; }
+        .divider::after  { right: 0; }
+
+        .role-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .role-btn {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            background: white;
+            color: #555;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .role-btn.active {
+            border-color: maroon;
+            background-color: maroon;
+            color: white;
+        }
+
+        .role-btn:hover:not(.active) {
+            border-color: maroon;
+            color: maroon;
+        }
+
+        footer {
+            background-color: maroon;
+            color: whitesmoke;
+            text-align: center;
+            padding: 15px;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        /* MOBILE */
+        @media (max-width: 480px) {
+
+            header {
+                padding: 0 20px;
+            }
+
+            header h4 {
+                font-size: 13px;
+            }
+
+            .logo {
+                width: 40px;
+            }
+
+            .login-card {
+                margin-left: 0; /* remove the 200px left margin on mobile */
+                justify-content: center;
+            }
+
+            .main-container {
+                justify-content: center;
+                padding: 40px 20px;
+            }
+
+            .card-header h2 {
+                font-size: 17px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+    <img src="images/logo.png" class="logo">
+    <h4>USeP Vehicle Reservation System</h4>
+</header>
+
+<!-- MAIN -->
+<div class="main-container">
+    <div class="login-card">
+
+        <!-- CARD HEADER -->
+        <div class="card-header">
+            <img src="images/logo.png">
+            <h2><strong>WELCOME!</strong></h2>
+            <p>Log in to your account to continue.</p>
+        </div>
+
+        <!-- ERROR MESSAGE -->
+        <div class="error-msg" id="error-msg">
+            Invalid username or password. Please try again.
+        </div>
+
+        <!-- FORM -->
+        <div class="form-group">
+            <label>Username</label>
+            <input type="text" id="username" placeholder="Enter your username">
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <div class="password-wrapper">
+                <input type="password" id="password" placeholder="Enter your password">
+                <button class="toggle-password" onclick="togglePassword()">
+                    <img src="images/visible.png" id="toggle-icon">
+                </button>
+            </div>
+        </div>
+
+        <button class="login-btn" onclick="login()">Log In</button>
+
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    &copy; 2026 University of Southeastern Philippines. All rights reserved.
+</footer>
+
+<script>
+
+    // ---- SHOW/HIDE PASSWORD ----
+    function togglePassword() {
+        const input = document.getElementById('password');
+        const icon = document.getElementById('toggle-icon');
+
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.src = 'images/invisible.png';
+        } else {
+            input.type = 'password';
+            icon.src = 'images/visible.png';
+        }
+    }
+
+    // ---- LOGIN ----
+    function login() {
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const errorMsg = document.getElementById('error-msg');
+
+        if (username === '' || password === '') {
+            errorMsg.textContent = 'Please fill in all fields.';
+            errorMsg.classList.add('show');
+            return;
+        }
+    }
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') login();
+    });
+
+</script>
+
+</body>
+</html>
