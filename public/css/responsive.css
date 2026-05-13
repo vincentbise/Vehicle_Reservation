@@ -1,0 +1,57 @@
+/* ════════════════════════════════════════════════════════════════
+   Responsive Breakpoints
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── Hide sidebar toggle on desktop ──────────────────────────── */
+@media (min-width: 769px) {
+    .nav-toggle { display: none !important; }
+    .header-right { display: flex; }
+}
+
+/* ── Tablet / Mobile ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+
+    /* Header */
+    .site-header { padding: 0 16px; height: 60px; }
+    .site-title  { font-size: 13px; }
+    .site-header .logo { width: 34px; }
+    .header-right { display: none; }
+    .nav-toggle { display: flex !important; margin-left: auto; }
+
+    /* Sidebar — slide in from left */
+    .side {
+        left: -240px;
+        top: 60px;
+        height: calc(100vh - 60px);
+        box-shadow: 4px 0 20px rgba(0,0,0,.18);
+        transition: left .3s ease;
+    }
+    .side.show { left: 0; }
+
+    /* Main wrap */
+    .wrap { margin-left: 0; padding: 14px; }
+
+    /* Stats */
+    .stats { grid-template-columns: 1fr 1fr; }
+
+    /* Hero */
+    .hero { flex-direction: column; align-items: flex-start; padding: 18px; }
+    .clock-box { align-self: stretch; text-align: center; }
+
+    /* Table */
+    table { min-width: 480px; }
+
+    /* Forms */
+    .form-grid { grid-template-columns: 1fr; }
+    .form-actions { flex-direction: column; align-items: stretch; }
+    .form-actions .btn-primary,
+    .form-actions .btn-outline { text-align: center; }
+
+    /* Login card */
+    .login-card { padding: 32px 24px; }
+}
+
+@media (max-width: 480px) {
+    .stats { grid-template-columns: 1fr; }
+    .stat .num { font-size: 26px; }
+}

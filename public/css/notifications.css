@@ -1,0 +1,161 @@
+/* ═══════════════════════════════════════════════════════════════
+   notifications.css — Toast notification styles for USeP VRS
+   Solid backgrounds only (no transparency) per project requirements
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Toast Container ─────────────────────────────────────────── */
+.vrs-toast-container {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 400px;
+    width: 100%;
+    pointer-events: none;
+}
+
+/* ── Individual Toast ────────────────────────────────────────── */
+.vrs-toast {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+    pointer-events: auto;
+    transform: translateX(120%);
+    opacity: 0;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.35s ease;
+    position: relative;
+    overflow: hidden;
+    border-left: 5px solid transparent;
+}
+
+.vrs-toast--visible {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+/* ── Exit Animation ──────────────────────────────────────────── */
+.vrs-toast--exit {
+    animation: toastSlideOut 0.3s ease forwards;
+}
+
+@keyframes toastSlideOut {
+    from { transform: translateX(0); opacity: 1; }
+    to   { transform: translateX(120%); opacity: 0; }
+}
+
+/* ── Toast Variants (SOLID backgrounds — no transparency) ──── */
+.vrs-toast--success {
+    background: #f0fdf4;
+    border-left-color: #16a34a;
+    color: #14532d;
+}
+
+.vrs-toast--error {
+    background: #fef2f2;
+    border-left-color: #dc2626;
+    color: #7f1d1d;
+}
+
+.vrs-toast--warning {
+    background: #fffbeb;
+    border-left-color: #d97706;
+    color: #78350f;
+}
+
+.vrs-toast--info {
+    background: #eff6ff;
+    border-left-color: #2563eb;
+    color: #1e3a5f;
+}
+
+/* ── Toast Icon ──────────────────────────────────────────────── */
+.vrs-toast__icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+    line-height: 0;
+}
+
+.vrs-toast__icon svg {
+    display: block;
+}
+
+/* ── Toast Body ──────────────────────────────────────────────── */
+.vrs-toast__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.vrs-toast__title {
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.vrs-toast__message {
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+/* ── Close Button ────────────────────────────────────────────── */
+.vrs-toast__close {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    color: inherit;
+    opacity: 0.5;
+    padding: 0;
+    margin-top: -2px;
+    transition: opacity 0.2s;
+}
+
+.vrs-toast__close:hover {
+    opacity: 1;
+}
+
+/* ── Progress Bar ────────────────────────────────────────────── */
+.vrs-toast__progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    transform-origin: left;
+    transform: scaleX(1);
+}
+
+.vrs-toast--success .vrs-toast__progress { background: #16a34a; }
+.vrs-toast--error   .vrs-toast__progress { background: #dc2626; }
+.vrs-toast--warning .vrs-toast__progress { background: #d97706; }
+.vrs-toast--info    .vrs-toast__progress { background: #2563eb; }
+
+.vrs-toast__progress--running {
+    animation: toastProgress linear forwards;
+}
+
+@keyframes toastProgress {
+    from { transform: scaleX(1); }
+    to   { transform: scaleX(0); }
+}
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 480px) {
+    .vrs-toast-container {
+        right: 10px;
+        left: 10px;
+        max-width: none;
+        top: 70px;
+    }
+}

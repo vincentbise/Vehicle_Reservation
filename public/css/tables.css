@@ -1,0 +1,63 @@
+/* ── Tables ───────────────────────────────────────────────────── */
+.table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: var(--radius-sm);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 560px;
+    font-size: 13px;
+}
+
+thead tr {
+    background: var(--brand);
+    color: #fff;
+}
+
+thead th {
+    padding: 12px 14px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .6px;
+    white-space: nowrap;
+}
+
+tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background var(--transition);
+}
+
+tbody tr:last-child { border-bottom: none; }
+
+tbody tr:hover { background: #fdf8f8; }
+
+tbody td {
+    padding: 12px 14px;
+    vertical-align: middle;
+    color: var(--text);
+}
+
+/* ── Approval Form inside table row ─────────────────────────── */
+.decision-form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.decision-form input[type="text"],
+.decision-form textarea {
+    flex: 1;
+    min-width: 160px;
+    padding: 7px 10px;
+    font-size: 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    outline: none;
+}
+.decision-form input:focus { border-color: var(--brand); }
