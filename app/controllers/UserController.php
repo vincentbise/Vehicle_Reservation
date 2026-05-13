@@ -1,5 +1,5 @@
 <?php
-// ─── UserController ──────────────────────────────────────────────────────────
+// UserController
 class UserController extends Controller {
 
     private User $model;
@@ -36,7 +36,7 @@ class UserController extends Controller {
             'contact_no'  => $this->postInput('contact_no'),
         ];
 
-        // Validate required fields
+
         foreach (['employee_id','full_name','email','username','password'] as $f) {
             if (empty($data[$f])) {
                 if ($this->isAjax()) {
@@ -47,7 +47,7 @@ class UserController extends Controller {
             }
         }
 
-        // Validate role
+
         $validRoles = ['admin','asd_coordinator','unit_head','requester','driver'];
         if (!in_array($data['role'], $validRoles, true)) {
             if ($this->isAjax()) {

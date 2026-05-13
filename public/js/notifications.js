@@ -1,11 +1,11 @@
-/* ═══════════════════════════════════════════════════════════════
-   notifications.js — Toast notification system for USeP VRS
-   Usage:
-     VRS.notify.success('Reservation submitted!');
-     VRS.notify.error('Something went wrong.');
-     VRS.notify.warning('Please check your input.');
-     VRS.notify.info('Your session will expire soon.');
-   ═══════════════════════════════════════════════════════════════ */
+/**
+ * notifications.js — Toast notification system for USeP VRS
+ * Usage:
+ *   VRS.notify.success('Reservation submitted!');
+ *   VRS.notify.error('Something went wrong.');
+ *   VRS.notify.warning('Please check your input.');
+ *   VRS.notify.info('Your session will expire soon.');
+ */
 
 window.VRS = window.VRS || {};
 
@@ -51,22 +51,22 @@ VRS.notify = (function () {
             <div class="vrs-toast__progress"></div>
         `;
 
-        // Close button
+
         toast.querySelector('.vrs-toast__close').addEventListener('click', () => dismiss(toast));
 
         container.appendChild(toast);
 
-        // Trigger entrance animation
+
         requestAnimationFrame(() => {
             toast.classList.add('vrs-toast--visible');
         });
 
-        // Start progress bar
+
         const progressBar = toast.querySelector('.vrs-toast__progress');
         progressBar.style.animationDuration = duration + 'ms';
         progressBar.classList.add('vrs-toast__progress--running');
 
-        // Auto-dismiss
+
         const timer = setTimeout(() => dismiss(toast), duration);
         toast._timer = timer;
 
@@ -80,7 +80,7 @@ VRS.notify = (function () {
         toast.addEventListener('animationend', () => {
             toast.remove();
         }, { once: true });
-        // Fallback removal if animationend doesn't fire
+        // Fallback if animationend doesn't fire
         setTimeout(() => {
             if (toast.parentNode) toast.remove();
         }, 400);

@@ -18,7 +18,7 @@ include VIEW_PATH . '/layouts/header.php';
             <div class="alert alert-success"><?= htmlspecialchars($flash) ?></div>
         <?php endif; ?>
 
-        <!-- Filter Tabs -->
+
         <div class="filter-tabs" id="vehicle-filter">
             <button class="filter-tab active" data-filter="all">All</button>
             <button class="filter-tab" data-filter="available">Available</button>
@@ -81,7 +81,7 @@ include VIEW_PATH . '/layouts/header.php';
 
 <?php include VIEW_PATH . '/layouts/footer.php'; ?>
 <script>
-    // Filter tabs
+
     document.querySelectorAll('#vehicle-filter .filter-tab').forEach(tab => {
         tab.addEventListener('click', () => {
             document.querySelectorAll('#vehicle-filter .filter-tab').forEach(t => t.classList.remove('active'));
@@ -93,7 +93,7 @@ include VIEW_PATH . '/layouts/header.php';
         });
     });
 
-    // Search
+
     document.getElementById('vehicle-search').addEventListener('input', function () {
         const q = this.value.toLowerCase();
         document.querySelectorAll('#vehicles-table tbody tr').forEach(row => {

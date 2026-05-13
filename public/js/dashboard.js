@@ -1,11 +1,9 @@
-/* ═══════════════════════════════════════════════════════════════
-   dashboard.js — Live clock + UI helpers
-   ═══════════════════════════════════════════════════════════════ */
+/* dashboard.js — Live clock & UI helpers */
 
 (function () {
     'use strict';
 
-    // ── Live Clock ────────────────────────────────────────────────
+
     const clockEl = document.getElementById('clock');
     if (clockEl) {
         function updateClock() {
@@ -20,14 +18,14 @@
         setInterval(updateClock, 1000);
     }
 
-    // ── Confirm delete / cancel dialogs ────────────────────────────
+
     document.querySelectorAll('[data-confirm]').forEach(el => {
         el.addEventListener('click', (e) => {
             if (!confirm(el.dataset.confirm)) e.preventDefault();
         });
     });
 
-    // ── Stat number counter animation ─────────────────────────────
+
     document.querySelectorAll('.stat .num').forEach(el => {
         const target = parseInt(el.textContent, 10);
         if (isNaN(target)) return;

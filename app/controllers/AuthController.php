@@ -1,5 +1,5 @@
 <?php
-// ─── AuthController ──────────────────────────────────────────────────────────
+// AuthController
 class AuthController extends Controller {
 
     private User $userModel;
@@ -50,7 +50,7 @@ class AuthController extends Controller {
             $this->redirect('login');
         }
 
-        // Set session
+
         $_SESSION['user_id']   = $user['user_id'];
         $_SESSION['full_name'] = $user['full_name'];
         $_SESSION['role']      = $user['role'];
@@ -58,7 +58,7 @@ class AuthController extends Controller {
 
         session_regenerate_id(true);
 
-        // Re-generate CSRF token on login
+
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 
         $redirectUrl = $this->getRedirectUrl($user['role']);

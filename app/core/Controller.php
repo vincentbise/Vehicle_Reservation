@@ -1,5 +1,5 @@
 <?php
-// ─── Base Controller ─────────────────────────────────────────────────────────
+// Base Controller
 abstract class Controller {
 
     /** Render a view file, passing data into its scope. */
@@ -67,7 +67,7 @@ abstract class Controller {
         return $msg;
     }
 
-    // ── CSRF Protection ──────────────────────────────────────────────────
+
 
     /** Generate and store a CSRF token in the session. */
     public static function generateCsrfToken(): string {
@@ -85,7 +85,7 @@ abstract class Controller {
 
     /** Verify the CSRF token from the request. */
     protected function verifyCsrf(): void {
-        // For AJAX: check X-CSRF-Token header
+
         $token = $_POST['csrf_token']
               ?? $_SERVER['HTTP_X_CSRF_TOKEN']
               ?? '';
@@ -99,7 +99,7 @@ abstract class Controller {
         }
     }
 
-    // ── Input Sanitization ───────────────────────────────────────────────
+
 
     /** Sanitize a string input — trim and strip tags. */
     protected function sanitize(string $value): string {

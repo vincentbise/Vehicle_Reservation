@@ -1,5 +1,5 @@
 <?php
-// ─── ReportController ────────────────────────────────────────────────────────
+// ReportController
 class ReportController extends Controller {
 
     public function index(): void {

@@ -1,16 +1,16 @@
 <?php
-// ─── Router ──────────────────────────────────────────────────────────────────
+// Router
 class Router {
-    // Route map: 'controller/action' => [ControllerClass, method]
     private array $routes = [
-        // Auth
+
         ''                         => ['AuthController',        'login'],
+        'index.php'                => ['AuthController',        'login'],
         'login'                    => ['AuthController',        'login'],
         'auth/login'               => ['AuthController',        'login'],
         'auth/logout'              => ['AuthController',        'logout'],
         'auth/do_login'            => ['AuthController',        'doLogin'],
 
-        // Admin
+
         'admin/dashboard'          => ['DashboardController',   'adminDashboard'],
         'admin/accounts'           => ['UserController',        'index'],
         'admin/accounts/create'    => ['UserController',        'create'],
@@ -28,24 +28,24 @@ class Router {
         'admin/reservations/assign'=> ['ReservationController', 'assign'],
         'admin/reports'            => ['ReportController',      'index'],
 
-        // Requester
+
         'requester/dashboard'      => ['DashboardController',   'requesterDashboard'],
         'requester/new'            => ['ReservationController', 'newForm'],
         'requester/store'          => ['ReservationController', 'store'],
         'requester/my_requests'    => ['ReservationController', 'myRequests'],
         'requester/cancel'         => ['ReservationController', 'cancel'],
 
-        // Unit Head / ASD Coordinator approval
+
         'approvals'                => ['ReservationController', 'pendingApprovals'],
         'approvals/decide'         => ['ReservationController', 'decide'],
 
-        // Driver
+
         'driver/dashboard'         => ['DashboardController',   'driverDashboard'],
         'driver/trips'             => ['DriverController',      'myTrips'],
         'driver/dispatch'          => ['DriverController',      'dispatch'],
         'driver/complete'          => ['DriverController',      'complete'],
 
-        // ── AJAX API Endpoints ──────────────────────────────────────────
+
         'api/auth/login'           => ['AuthController',        'doLogin'],
         'api/accounts/store'       => ['UserController',        'store'],
         'api/accounts/update'      => ['UserController',        'update'],
@@ -61,26 +61,26 @@ class Router {
     ];
 
     public function dispatch(): void {
-        // Detect URL using REQUEST_URI to be more robust than $_GET['url']
+
         $requestUri = $_SERVER['REQUEST_URI'] ?? '';
         $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
         $baseDir    = str_replace(basename($scriptName), '', $scriptName);
         
-        // Remove baseDir from requestUri and strip query string
+
         $url = str_replace($baseDir, '', $requestUri);
         $url = parse_url($url, PHP_URL_PATH);
         $url = trim($url ?? '', '/');
 
         $method = strtolower($_SERVER['REQUEST_METHOD']);
 
-        // Allow POST override via _method field
+
         if ($method === 'post' && isset($_POST['_method'])) {
             $method = strtolower($_POST['_method']);
         }
 
         if (!array_key_exists($url, $this->routes)) {
             http_response_code(404);
-            // For API routes, return JSON 404
+
             if (str_starts_with($url, 'api/')) {
                 header('Content-Type: application/json; charset=utf-8');
                 echo json_encode(['success' => false, 'message' => 'Endpoint not found.']);
@@ -100,7 +100,7 @@ class Router {
 
         require_once $controllerFile;
 
-        // Load model files for every request
+
         foreach (glob(APP_PATH . '/models/*.php') as $model) {
             require_once $model;
         }

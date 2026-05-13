@@ -70,7 +70,7 @@ include VIEW_PATH . '/layouts/header.php';
 
 <?php include VIEW_PATH . '/layouts/footer.php'; ?>
 <script>
-    // AJAX cancel with row update
+
     document.querySelectorAll('.ajax-cancel-form').forEach(form => {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -81,7 +81,7 @@ include VIEW_PATH . '/layouts/header.php';
                 submitBtn: btn,
                 onSuccess: (data) => {
                     VRS.notify.success(data.message);
-                    // Update row status
+
                     const row = form.closest('tr');
                     if (row) {
                         const badgeCell = row.querySelector('.badge');
@@ -89,7 +89,7 @@ include VIEW_PATH . '/layouts/header.php';
                             badgeCell.className = 'badge badge-cancelled';
                             badgeCell.textContent = 'Cancelled';
                         }
-                        // Replace cancel button with dash
+
                         const actionCell = form.parentElement;
                         form.remove();
                         actionCell.innerHTML = '<span class="muted">—</span>';

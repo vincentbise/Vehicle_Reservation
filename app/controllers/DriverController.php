@@ -1,5 +1,5 @@
 <?php
-// ─── DriverController ────────────────────────────────────────────────────────
+// DriverController
 class DriverController extends Controller {
 
     private Driver      $driverModel;
@@ -40,13 +40,13 @@ class DriverController extends Controller {
             $this->redirect('driver/dashboard');
         }
 
-        // Check if dispatch log already exists (driver was pre-assigned by ASD)
+
         $existingLog = $this->logModel->findByReservation($reservationId);
         if ($existingLog) {
-            // Update existing log with start mileage and actual departure
+
             $this->logModel->startTrip($reservationId, $startMileage);
         } else {
-            // Create new dispatch log
+
             $this->logModel->create([
                 'reservation_id' => $reservationId,
                 'driver_id'      => (int)$driver['driver_id'],

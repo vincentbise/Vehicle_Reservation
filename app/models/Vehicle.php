@@ -1,5 +1,5 @@
 <?php
-// ─── Vehicle Model ───────────────────────────────────────────────────────────
+// Vehicle Model
 class Vehicle extends Model {
 
     public function all(): array {

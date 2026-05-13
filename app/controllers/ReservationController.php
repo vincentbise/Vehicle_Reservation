@@ -1,5 +1,5 @@
 <?php
-// ─── ReservationController ───────────────────────────────────────────────────
+// ReservationController
 class ReservationController extends Controller {
 
     private Reservation $model;
@@ -14,7 +14,7 @@ class ReservationController extends Controller {
         $this->driverModel   = new Driver();
     }
 
-    // ── Admin ────────────────────────────────────────────────────────────────
+
 
     public function adminIndex(): void {
         $this->requireRole('admin', 'asd_coordinator');
@@ -64,11 +64,11 @@ class ReservationController extends Controller {
             $this->redirect("admin/reservations/view?id={$id}");
         }
 
-        // Assign vehicle and update status
+
         $this->model->assignVehicle($id, $vehicleId);
         $this->vehicleModel->setStatus($vehicleId, 'in_use');
 
-        // Create dispatch log with driver assignment
+
         $logModel = new DispatchLog();
         $logModel->create([
             'reservation_id' => $id,
@@ -77,10 +77,10 @@ class ReservationController extends Controller {
             'start_mileage'  => 0,
         ]);
 
-        // Mark driver as unavailable
+
         $this->driverModel->setAvailability($driverId, false);
 
-        // Record approval
+
         $this->approvalModel->create([
             'reservation_id' => $id,
             'approved_by'    => (int)$_SESSION['user_id'],
@@ -99,7 +99,7 @@ class ReservationController extends Controller {
         $this->redirect("admin/reservations/view?id={$id}");
     }
 
-    // ── Pending Approvals (Unit Head / ASD Coordinator) ─────────────────────
+
 
     public function pendingApprovals(): void {
         $this->requireRole('unit_head', 'asd_coordinator', 'admin');
@@ -159,7 +159,7 @@ class ReservationController extends Controller {
         $this->redirect('approvals');
     }
 
-    // ── Requester ────────────────────────────────────────────────────────────
+
 
     public function newForm(): void {
         $this->requireRole('requester');
@@ -184,7 +184,7 @@ class ReservationController extends Controller {
             'return_time'    => $_POST['return_time']         ?? '',
         ];
 
-        // Basic validation
+
         foreach (['purpose','destination','departure_date','departure_time','return_date','return_time'] as $field) {
             if (empty($data[$field])) {
                 if ($this->isAjax()) {
@@ -195,7 +195,7 @@ class ReservationController extends Controller {
             }
         }
 
-        // Date validation
+
         if ($data['departure_date'] < date('Y-m-d')) {
             if ($this->isAjax()) {
                 $this->json(['success' => false, 'message' => 'Departure date cannot be in the past.'], 422);

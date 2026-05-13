@@ -1,5 +1,5 @@
 <?php
-// Shared header for all authenticated pages
+
 $pageTitle = $pageTitle ?? APP_NAME;
 ?>
 <!DOCTYPE html>
@@ -26,12 +26,11 @@ $pageTitle = $pageTitle ?? APP_NAME;
     </a>
     <div class="header-right">
         <span class="user-greeting">Hello, <?= htmlspecialchars($_SESSION['full_name'] ?? 'User') ?></span>
-        <a href="<?= BASE_URL ?>auth/logout" class="btn-logout">Log Out</a>
+        <button class="nav-toggle" id="toggleSideNav" aria-label="Toggle Navigation">
+            <img src="<?= BASE_URL ?>images/navigation.png" alt="Menu"/>
+        </button>
     </div>
-    <button class="nav-toggle" id="toggleSideNav" aria-label="Toggle Navigation">
-        <img src="<?= BASE_URL ?>images/navigation.png" alt="Menu"/>
-    </button>
 </header>
 
-<!-- Sidebar injected per role -->
+
 <?php include VIEW_PATH . '/layouts/sidebar.php'; ?>

@@ -1,5 +1,5 @@
 <?php
-// ─── Base Model ──────────────────────────────────────────────────────────────
+// Base Model
 abstract class Model {
     protected PDO $db;
 
@@ -7,7 +7,7 @@ abstract class Model {
         $this->db = Database::getInstance();
     }
 
-    // ── Convenience helpers ──────────────────────────────────────────────────
+
 
     /** Execute a prepared statement and return all rows. */
     protected function query(string $sql, array $params = []): array {

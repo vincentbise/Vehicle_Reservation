@@ -17,7 +17,7 @@ include VIEW_PATH . '/layouts/header.php';
             <div class="alert alert-success"><?= htmlspecialchars($flash) ?></div>
         <?php endif; ?>
 
-        <!-- Filter Tabs -->
+
         <div class="filter-tabs" id="res-filter">
             <button class="filter-tab active" data-filter="all">All</button>
             <button class="filter-tab" data-filter="pending">Pending</button>
@@ -86,7 +86,7 @@ include VIEW_PATH . '/layouts/header.php';
 
 <?php include VIEW_PATH . '/layouts/footer.php'; ?>
 <script>
-    // Filter tabs
+
     document.querySelectorAll('#res-filter .filter-tab').forEach(tab => {
         tab.addEventListener('click', () => {
             document.querySelectorAll('#res-filter .filter-tab').forEach(t => t.classList.remove('active'));
@@ -98,7 +98,7 @@ include VIEW_PATH . '/layouts/header.php';
         });
     });
 
-    // Search
+
     document.getElementById('res-search').addEventListener('input', function () {
         const q = this.value.toLowerCase();
         document.querySelectorAll('#res-table tbody tr').forEach(row => {

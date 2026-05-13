@@ -1,5 +1,5 @@
 <?php
-// ─── Database Singleton (PDO) ────────────────────────────────────────────────
+// Database Singleton (PDO)
 class Database {
     private static ?PDO $instance = null;
 
@@ -31,7 +31,7 @@ class Database {
         }
     }
 
-    // Prevent direct instantiation
+
     private function __construct() {}
     private function __clone()     {}
 }

@@ -1,5 +1,5 @@
 <?php
-// ─── Approval Model ──────────────────────────────────────────────────────────
+// Approval Model
 class Approval extends Model {
 
     /** All approvals for a specific reservation, with approver name. */

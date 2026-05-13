@@ -2,7 +2,7 @@
 $pageTitle = 'My Dashboard';
 include VIEW_PATH . '/layouts/header.php';
 
-// Quick summary counts from the passed requests array
+
 $total     = count($requests);
 $pending   = count(array_filter($requests, fn($r) => $r['status'] === 'pending'));
 $completed = count(array_filter($requests, fn($r) => $r['status'] === 'completed'));
@@ -20,7 +20,7 @@ $rejected  = count(array_filter($requests, fn($r) => in_array($r['status'], ['re
             <a href="<?= BASE_URL ?>requester/new" class="btn-primary">+ New Request</a>
         </section>
 
-        <!-- Quick Stats -->
+
         <section class="stats">
             <article class="stat">
                 <img src="<?= BASE_URL ?>images/reports.png" class="stat-icon" alt="Total"/>
@@ -44,7 +44,7 @@ $rejected  = count(array_filter($requests, fn($r) => in_array($r['status'], ['re
             </article>
         </section>
 
-        <!-- Recent Requests -->
+
         <section class="panel active">
             <div class="panel-header">
                 <h3>Recent Requests</h3>

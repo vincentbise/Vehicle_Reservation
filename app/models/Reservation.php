@@ -1,5 +1,5 @@
 <?php
-// ─── Reservation Model ───────────────────────────────────────────────────────
+// Reservation Model
 class Reservation extends Model {
 
     /** All reservations with requester and vehicle info. */
@@ -119,7 +119,7 @@ class Reservation extends Model {
         );
     }
 
-    // ── Counting helpers for dashboard ────────────────────────────
+
 
     public function countByStatus(string $status): int {
         $row = $this->queryOne(

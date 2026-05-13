@@ -2,7 +2,7 @@
 // ─── Application Configuration ─────────────────────────────────────────────
 define('APP_NAME',    'USeP Vehicle Reservation System');
 define('APP_VERSION', '1.0.0');
-// Detect Base URL dynamically
+
 $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
 $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
 $baseUrl .= str_replace(basename($scriptName), '', $scriptName);

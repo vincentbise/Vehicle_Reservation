@@ -1,5 +1,5 @@
 <?php
-// ─── User Model ──────────────────────────────────────────────────────────────
+// User Model
 class User extends Model {
 
     public function all(): array {

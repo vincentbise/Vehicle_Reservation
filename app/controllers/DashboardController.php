@@ -1,5 +1,5 @@
 <?php
-// ─── DashboardController ─────────────────────────────────────────────────────
+// DashboardController
 class DashboardController extends Controller {
 
     public function adminDashboard(): void {

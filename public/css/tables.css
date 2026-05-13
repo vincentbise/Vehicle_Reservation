@@ -1,4 +1,4 @@
-/* ── Tables ───────────────────────────────────────────────────── */
+/* Tables */
 .table-wrap {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -42,7 +42,7 @@ tbody td {
     color: var(--text);
 }
 
-/* ── Approval Form inside table row ─────────────────────────── */
+/* Approval Form */
 .decision-form {
     display: flex;
     gap: 8px;

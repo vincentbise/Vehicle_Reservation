@@ -1,4 +1,4 @@
-/* ── Login Page ──────────────────────────────────────────────── */
+/* Login Page */
 body.login-page {
     background: linear-gradient(135deg, #800000 0%, #3a0000 100%);
     display: flex;
@@ -62,7 +62,7 @@ body.login-page .site-header {
     color: var(--muted);
 }
 
-/* Password toggle */
+/* Password Toggle */
 .password-wrapper {
     position: relative;
 }
@@ -87,7 +87,7 @@ body.login-page .site-header {
 .toggle-password img { width: 18px; opacity: .5; }
 .toggle-password:hover img { opacity: .9; }
 
-/* Login button */
+/* Login Button */
 .login-btn {
     width: 100%;
     padding: 13px;

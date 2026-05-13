@@ -1,11 +1,8 @@
-/* ═══════════════════════════════════════════════════════════════
-   login.js — Login page interactions with AJAX support
-   ═══════════════════════════════════════════════════════════════ */
+/* login.js — Login page interactions with AJAX */
 
 (function () {
     'use strict';
 
-    // ── Show / Hide Password ──────────────────────────────────────
     const toggleBtn = document.getElementById('togglePwd');
     const passwordInput = document.getElementById('password');
     const toggleIcon    = document.getElementById('toggle-icon');
@@ -20,7 +17,7 @@
         });
     }
 
-    // ── AJAX Login Form Submission ────────────────────────────────
+
     const form = document.getElementById('login-form');
     const submitBtn = document.getElementById('login-submit');
 
@@ -36,7 +33,7 @@
                 return;
             }
 
-            // Disable button
+
             submitBtn.disabled = true;
             submitBtn.textContent = 'Signing in…';
 
@@ -63,7 +60,6 @@
         });
     }
 
-    // ── Submit on Enter ───────────────────────────────────────────
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && form && !submitBtn.disabled) {
             form.dispatchEvent(new Event('submit', { cancelable: true }));

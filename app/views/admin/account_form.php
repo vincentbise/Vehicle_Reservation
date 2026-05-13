@@ -122,7 +122,7 @@ include VIEW_PATH . '/layouts/header.php';
 
 <?php include VIEW_PATH . '/layouts/footer.php'; ?>
 <script>
-    // AJAX form submission
+
     const form = document.getElementById('account-form');
     if (form) {
         form.addEventListener('submit', async (e) => {

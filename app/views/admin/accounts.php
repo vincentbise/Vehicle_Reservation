@@ -19,7 +19,7 @@ include VIEW_PATH . '/layouts/header.php';
         <?php endif; ?>
 
         <section class="panel active">
-            <!-- Search box -->
+
             <div class="panel-header">
                 <h3>All Accounts</h3>
                 <input type="text" id="account-search"
@@ -88,7 +88,7 @@ include VIEW_PATH . '/layouts/header.php';
 
 <?php include VIEW_PATH . '/layouts/footer.php'; ?>
 <script>
-    // Live table search
+
     document.getElementById('account-search').addEventListener('input', function () {
         const q = this.value.toLowerCase();
         document.querySelectorAll('#accounts-table tbody tr').forEach(row => {
@@ -96,7 +96,7 @@ include VIEW_PATH . '/layouts/header.php';
         });
     });
 
-    // AJAX toggle active/inactive
+
     document.querySelectorAll('.ajax-toggle-form').forEach(form => {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -109,13 +109,13 @@ include VIEW_PATH . '/layouts/header.php';
                 submitBtn: btn,
                 onSuccess: (data) => {
                     VRS.notify.success(data.message);
-                    // Toggle button state
+
                     const newActive = !isActive;
                     btn.dataset.isActive = newActive ? '1' : '0';
                     btn.textContent = newActive ? 'Deactivate' : 'Activate';
                     btn.className = 'btn-sm ' + (newActive ? 'btn-warn' : 'btn-ok');
 
-                    // Update badge
+
                     const userId = form.querySelector('input[name="user_id"]').value;
                     const badge = document.getElementById('status-badge-' + userId);
                     if (badge) {

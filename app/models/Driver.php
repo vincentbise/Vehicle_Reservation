@@ -1,5 +1,5 @@
 <?php
-// ─── Driver Model ────────────────────────────────────────────────────────────
+// Driver Model
 class Driver extends Model {
 
     public function all(): array {

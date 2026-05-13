@@ -52,7 +52,7 @@ $levelLabel = $isUnitHead ? 'Unit Head Review' : 'ASD Coordinator Review';
                 <div class="full-detail"><strong>Purpose:</strong> <?= nl2br(htmlspecialchars($r['purpose'])) ?></div>
             </div>
 
-            <!-- Decision form -->
+
             <form method="POST" action="<?= BASE_URL ?>approvals/decide"
                   data-ajax-url="<?= BASE_URL ?>api/approvals/decide"
                   class="decision-form-block ajax-decision-form">
@@ -83,7 +83,7 @@ $levelLabel = $isUnitHead ? 'Unit Head Review' : 'ASD Coordinator Review';
 
 <?php include VIEW_PATH . '/layouts/footer.php'; ?>
 <script>
-    // AJAX approve/reject with card removal animation
+
     document.querySelectorAll('.ajax-decision-form').forEach(form => {
         const buttons = form.querySelectorAll('button[type="submit"]');
 
@@ -94,7 +94,7 @@ $levelLabel = $isUnitHead ? 'Unit Head Review' : 'ASD Coordinator Review';
                 const decision = btn.value;
                 if (decision === 'rejected' && !confirm('Reject this request?')) return;
 
-                // Add decision to form data
+
                 const formData = new FormData(form);
                 formData.append('decision', decision);
 
@@ -111,7 +111,7 @@ $levelLabel = $isUnitHead ? 'Unit Head Review' : 'ASD Coordinator Review';
 
                     if (result.success) {
                         VRS.notify.success(result.message);
-                        // Animate card removal
+
                         const card = form.closest('.approval-card');
                         if (card) {
                             card.style.transition = 'opacity 0.4s, transform 0.4s';
@@ -120,7 +120,7 @@ $levelLabel = $isUnitHead ? 'Unit Head Review' : 'ASD Coordinator Review';
                             setTimeout(() => card.remove(), 400);
                         }
 
-                        // Check if no more cards
+
                         setTimeout(() => {
                             const remaining = document.querySelectorAll('.approval-card');
                             if (remaining.length === 0) {

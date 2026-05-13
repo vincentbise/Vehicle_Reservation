@@ -1,9 +1,5 @@
-/* ═══════════════════════════════════════════════════════════════
-   notifications.css — Toast notification styles for USeP VRS
-   Solid backgrounds only (no transparency) per project requirements
-   ═══════════════════════════════════════════════════════════════ */
+/* Toast Notifications */
 
-/* ── Toast Container ─────────────────────────────────────────── */
 .vrs-toast-container {
     position: fixed;
     top: 80px;
@@ -17,7 +13,6 @@
     pointer-events: none;
 }
 
-/* ── Individual Toast ────────────────────────────────────────── */
 .vrs-toast {
     display: flex;
     align-items: flex-start;
@@ -40,7 +35,6 @@
     opacity: 1;
 }
 
-/* ── Exit Animation ──────────────────────────────────────────── */
 .vrs-toast--exit {
     animation: toastSlideOut 0.3s ease forwards;
 }
@@ -50,7 +44,7 @@
     to   { transform: translateX(120%); opacity: 0; }
 }
 
-/* ── Toast Variants (SOLID backgrounds — no transparency) ──── */
+/* Toast Variants */
 .vrs-toast--success {
     background: #f0fdf4;
     border-left-color: #16a34a;
@@ -75,7 +69,6 @@
     color: #1e3a5f;
 }
 
-/* ── Toast Icon ──────────────────────────────────────────────── */
 .vrs-toast__icon {
     flex-shrink: 0;
     margin-top: 2px;
@@ -86,7 +79,6 @@
     display: block;
 }
 
-/* ── Toast Body ──────────────────────────────────────────────── */
 .vrs-toast__body {
     flex: 1;
     display: flex;
@@ -106,7 +98,6 @@
     line-height: 1.45;
 }
 
-/* ── Close Button ────────────────────────────────────────────── */
 .vrs-toast__close {
     flex-shrink: 0;
     background: none;
@@ -125,7 +116,6 @@
     opacity: 1;
 }
 
-/* ── Progress Bar ────────────────────────────────────────────── */
 .vrs-toast__progress {
     position: absolute;
     bottom: 0;
@@ -150,7 +140,6 @@
     to   { transform: scaleX(0); }
 }
 
-/* ── Responsive ──────────────────────────────────────────────── */
 @media (max-width: 480px) {
     .vrs-toast-container {
         right: 10px;

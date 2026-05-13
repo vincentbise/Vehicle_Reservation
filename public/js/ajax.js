@@ -1,29 +1,33 @@
-/* ═══════════════════════════════════════════════════════════════
-   ajax.js — Central AJAX utility for USeP VRS
-   Usage:
-     VRS.ajax.post('api/accounts/store', formData).then(...)
-     VRS.ajax.get('api/reports?type=daily').then(...)
-   ═══════════════════════════════════════════════════════════════ */
+/**
+ * ajax.js — Central AJAX utility for USeP VRS
+ * Usage:
+ *   VRS.ajax.post('api/accounts/store', formData).then(...)
+ *   VRS.ajax.get('api/reports?type=daily').then(...)
+ */
 
 window.VRS = window.VRS || {};
 
 VRS.ajax = (function () {
     'use strict';
 
-    /**
-     * Get the CSRF token from the meta tag embedded by the layout.
-     */
+    /** Get the CSRF token from the meta tag. */
     function getCsrfToken() {
         const meta = document.querySelector('meta[name="csrf-token"]');
         return meta ? meta.getAttribute('content') : '';
     }
 
-    /**
-     * Build the full URL relative to BASE_URL.
-     */
+    /** Build the full URL relative to BASE_URL. */
     function buildUrl(path) {
         const base = document.querySelector('meta[name="base-url"]');
         const baseUrl = base ? base.getAttribute('content') : '/';
+        if (!path) return baseUrl;
+
+
+        if (/^https?:\/\//i.test(path)) return path;
+
+
+        if (path.startsWith('/')) return window.location.origin + path;
+
         return baseUrl + path.replace(/^\//, '');
     }
 
@@ -42,7 +46,6 @@ VRS.ajax = (function () {
 
         let body;
         if (data instanceof FormData) {
-            // Append CSRF token to FormData
             data.append('csrf_token', getCsrfToken());
             body = data;
         } else {
@@ -63,7 +66,6 @@ VRS.ajax = (function () {
             const json = await response.json();
 
             if (!response.ok) {
-                // If session expired, redirect to login
                 if (response.status === 401) {
                     VRS.notify.error(json.message || 'Session expired.');
                     setTimeout(() => { window.location.href = buildUrl('login'); }, 1500);
@@ -119,7 +121,7 @@ VRS.ajax = (function () {
             const formData = new FormData(form);
             const action = form.getAttribute('data-ajax-url') || form.action;
 
-            // Extract relative path from action URL
+
             const baseMeta = document.querySelector('meta[name="base-url"]');
             const baseUrl = baseMeta ? baseMeta.getAttribute('content') : '/';
             let path = action.replace(window.location.origin, '').replace(baseUrl, '');

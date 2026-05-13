@@ -1,5 +1,5 @@
 <?php
-// ─── VehicleController ───────────────────────────────────────────────────────
+// VehicleController
 class VehicleController extends Controller {
 
     private Vehicle $model;
@@ -91,7 +91,7 @@ class VehicleController extends Controller {
             'notes'        => $this->postInput('notes'),
         ];
 
-        // Validate status
+
         $validStatuses = ['available', 'in_use', 'maintenance', 'retired'];
         if (!in_array($data['status'], $validStatuses, true)) {
             $data['status'] = 'available';

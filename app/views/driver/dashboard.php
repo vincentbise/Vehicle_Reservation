@@ -11,7 +11,6 @@ include VIEW_PATH . '/layouts/header.php';
                 <h1>Driver Dashboard</h1>
                 <p>Hello, <?= htmlspecialchars($_SESSION['full_name']) ?>. Here are your assigned trips.</p>
             </div>
-            <div class="clock-box" id="clock">--:--:--</div>
         </section>
 
         <?php if (!empty($flash)): ?>
@@ -83,7 +82,7 @@ include VIEW_PATH . '/layouts/header.php';
 <?php include VIEW_PATH . '/layouts/footer.php'; ?>
 <script src="<?= BASE_URL ?>public/js/dashboard.js"></script>
 <script>
-    // AJAX driver forms (dispatch / complete)
+
     document.querySelectorAll('.ajax-driver-form').forEach(form => {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -92,7 +91,7 @@ include VIEW_PATH . '/layouts/header.php';
                 submitBtn: btn,
                 onSuccess: (data) => {
                     VRS.notify.success(data.message);
-                    // Reload after a moment so driver sees updated status
+
                     setTimeout(() => window.location.reload(), 1200);
                 },
             });

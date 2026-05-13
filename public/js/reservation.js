@@ -1,6 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════
-   reservation.js — New reservation form validation & AJAX submit
-   ═══════════════════════════════════════════════════════════════ */
+/* reservation.js — New reservation form validation & AJAX submit */
 
 (function () {
     'use strict';
@@ -12,12 +10,10 @@
 
     if (!form) return;
 
-    // ── Set minimum departure date to today ───────────────────────
     const today = new Date().toISOString().split('T')[0];
     if (depDateEl) depDateEl.min = today;
     if (retDateEl) retDateEl.min = today;
 
-    // ── Ensure return date >= departure date ──────────────────────
     if (depDateEl && retDateEl) {
         depDateEl.addEventListener('change', () => {
             retDateEl.min = depDateEl.value;
@@ -27,11 +23,11 @@
         });
     }
 
-    // ── AJAX form submission ─────────────────────────────────────
+
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // Client-side required field check
+
         const required = form.querySelectorAll('[required]');
         let valid = true;
 
@@ -48,7 +44,7 @@
             return;
         }
 
-        // Date validation
+
         if (depDateEl && depDateEl.value < today) {
             VRS.notify.warning('Departure date cannot be in the past.');
             depDateEl.style.borderColor = 'var(--danger)';

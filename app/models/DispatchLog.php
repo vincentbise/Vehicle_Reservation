@@ -1,5 +1,5 @@
 <?php
-// ─── DispatchLog Model ───────────────────────────────────────────────────────
+// DispatchLog Model
 class DispatchLog extends Model {
 
     public function findByReservation(int $reservationId): ?array {

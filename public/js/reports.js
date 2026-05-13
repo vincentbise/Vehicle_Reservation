@@ -1,17 +1,13 @@
-/* ═══════════════════════════════════════════════════════════════
-   reports.js — Report page helpers (print, CSV export)
-   ═══════════════════════════════════════════════════════════════ */
+/* reports.js — Report page helpers (print, CSV export) */
 
 (function () {
     'use strict';
 
-    // ── Print Report ──────────────────────────────────────────────
     const printBtn = document.getElementById('btn-print');
     if (printBtn) {
         printBtn.addEventListener('click', () => window.print());
     }
 
-    // ── CSV Export ────────────────────────────────────────────────
     const exportBtn = document.getElementById('btn-export');
     if (exportBtn) {
         exportBtn.addEventListener('click', () => {
@@ -37,15 +33,6 @@
         });
     }
 
-    // ── Inject Print & Export Buttons if panel-header exists ─────
-    const panelHeaders = document.querySelectorAll('.panel-header');
-    panelHeaders.forEach(header => {
-        if (!header.querySelector('table')) {
-            // Only add to the "output" panel that contains a table
-        }
-    });
-
-    // Auto-inject on the second panel (report output)
     const outputPanel = document.querySelectorAll('.panel.active')[1];
     if (outputPanel) {
         const ph = outputPanel.querySelector('.panel-header');

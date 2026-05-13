@@ -11,7 +11,6 @@ include VIEW_PATH . '/layouts/header.php';
                 <h1>Admin Dashboard</h1>
                 <p>Welcome, <?= htmlspecialchars($_SESSION['full_name']) ?>. Here's your system overview.</p>
             </div>
-            <div class="clock-box" id="clock">--:--:--</div>
         </section>
 
         <!-- Stats -->
