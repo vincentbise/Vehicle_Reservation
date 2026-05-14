@@ -196,65 +196,6 @@ Vehicle_Reservation/
 
 ---
 
-## Database Schema (ERD)
-
-```
-                                    ┌─────────────────────┐
-                     ┌──────────────│       REPORT        │
-                     │  generates   │─────────────────────│
-                     │              │ PK  report_id       │
-              ┌──────┴──────┐       │ FK  user_id         │
-              │   ADMIN     │       │     date_generated   │
-              │─────────────│       │     description      │
-              │ PK/FK user_id│      │     file_path        │
-              │ first_name  │       │     report_content   │
-              │ middle_name │       └─────────────────────┘
-              │ last_name   │
-              └──────┬──────┘
-                     │ is
-                     │
-┌────────────────────┴────────────────────────────────────────────────────┐
-│                            USER                                        │
-│────────────────────────────────────────────────────────────────────────│
-│ PK  user_id                                                            │
-│     username         password_hash       email                         │
-│     contact_number   role                date_created                   │
-└───┬──────────────┬──────────────────────────────┬──────────────────────┘
-    │ is           │ is                            │ is
-    │              │                               │
-┌───┴──────┐  ┌────┴──────────┐             ┌─────┴──────────┐
-│  STAFF   │  │  REQUESTER    │             │    DRIVER      │
-│──────────│  │───────────────│             │────────────────│
-│PK/FK     │  │PK/FK user_id  │             │PK/FK user_id   │
-│ user_id  │  │ first_name    │             │ first_name     │
-│first_name│  │ middle_name   │  requests   │ middle_name    │
-│middle_   │  │ last_name     │─────┐       │ last_name      │
-│  name    │  │ department    │     │       │ status         │
-│last_name │  └───────────────┘     │       └───────┬────────┘
-│position  │                        │               │
-└────┬─────┘                        │               │ assigns
-     │ manages                      │               │
-     │         ┌────────────────────┴───────┐  ┌────┴──────────────┐
-     └────────►│       RESERVATION          │  │ RESERVATION_DRIVER│
-               │────────────────────────────│  │──────────────────│
-               │ PK  reservation_id         │  │PK/FK user_id     │
-               │ FK  user_id                │  │PK/FK reservation │
-               │ FK  vehicle_id             │◄─│      _id         │
-               │     purpose                │  │ assigned_date    │
-               │     destination            │  │ status           │
-               │     departure_date         │  └──────────────────┘
-               │     return_date            │
-               │     time_out               │
-               │     time_in                │       ┌──────────────────┐
-               │     status                 │       │     VEHICLE      │
-               │     remarks                │       │──────────────────│
-               │     date_requested         │──────►│ PK  vehicle_id   │
-               └────────────────────────────┘       │     vehicle_type │
-                                          reserves  │     plate_number │
-                                                    │     capacity     │
-                                                    │     status       │
-                                                    └──────────────────┘
-```
 
 ### Relationships
 
@@ -385,43 +326,6 @@ VRS.notify.info('Session will expire soon.');
 
 ---
 
-## Installation
-
-### Prerequisites
-- **PHP 8.1+** with PDO MySQL extension
-- **MySQL 8.0+** (or MariaDB 10.4+)
-- **Apache** with `mod_rewrite` enabled (Laragon or XAMPP)
-
-### Steps
-
-1. **Clone or copy** the project into your web server directory:
-   ```
-   c:\laragon\www\Vehicle_Reservation\
-   ```
-
-2. **Create the database** — import the full schema and seed data:
-   ```sql
-   -- Open phpMyAdmin or MySQL CLI and run:
-   SOURCE c:/laragon/www/Vehicle_Reservation/database/usep_vrs.sql;
-   ```
-
-3. **Configure database credentials** in `config/database.php`:
-   ```php
-   define('DB_HOST', 'localhost');
-   define('DB_NAME', 'usep_vrs');
-   define('DB_USER', 'root');
-   define('DB_PASS', '');   // Laragon default: empty
-   ```
-
-4. **Ensure `mod_rewrite`** is enabled (Laragon enables it by default).
-
-5. **Access the system** at:
-   ```
-   http://localhost/Vehicle_Reservation/
-   ```
-
----
-
 ## Test Credentials
 
 | Role | Username | Password | Description |
@@ -430,17 +334,6 @@ VRS.notify.info('Session will expire soon.');
 | **Staff** | `staff1` | `password123` | Reviews and approves requests |
 | **Requester** | `msantos` | `password123` | Submit and track reservations |
 | **Driver** | `jreyes` | `password123` | Start trips, log mileage |
-
----
-
-## UI Design Principles
-
-- **Solid backgrounds** — No transparent cards, shapes, or overlays
-- **Maroon (#800000) & Gold (#F5C518)** — USeP brand palette
-- **Inter font** — Clean, modern typography from Google Fonts
-- **Micro-animations** — Fade-up stats, floating hero orb, panel slide-in
-- **Responsive** — Collapsible sidebar, stacked layouts on mobile
-- **Professional** — Clean card layouts, status badges, role tags
 
 ---
 
