@@ -3,8 +3,8 @@
 abstract class Controller {
 
     /** Render a view file, passing data into its scope. */
-    protected function view(string $view, array $data = []): void {
-        extract($data, EXTR_SKIP);
+    protected function view(string $view, array $viewData = []): void {
+        extract($viewData, EXTR_SKIP);
         $file = VIEW_PATH . '/' . str_replace('.', '/', $view) . '.php';
         if (!file_exists($file)) {
             http_response_code(404);
