@@ -17,7 +17,7 @@ class ReservationController extends Controller {
 
 
     public function adminIndex(): void {
-        $this->requireRole('admin', 'asd_coordinator');
+        $this->requireRole('admin');
         $this->view('admin.reservations', [
             'reservations' => $this->model->all(),
             'flash'        => $this->getFlash('success'),
@@ -25,7 +25,7 @@ class ReservationController extends Controller {
     }
 
     public function adminView(): void {
-        $this->requireRole('admin', 'asd_coordinator');
+        $this->requireRole('admin');
         $id = (int)($_GET['id'] ?? 0);
         $reservation = $this->model->findById($id);
         if (!$reservation) { http_response_code(404); die('Not found.'); }
@@ -39,9 +39,9 @@ class ReservationController extends Controller {
         ]);
     }
 
-    /** Assign a vehicle AND driver to a reservation (ASD Coordinator final approval). */
+    /** Assign a vehicle and driver to an approved reservation (Admin). */
     public function assign(): void {
-        $this->requireRole('admin', 'asd_coordinator');
+        $this->requireRole('admin');
         $this->verifyCsrf();
 
         $id        = (int)($_POST['reservation_id'] ?? 0);
@@ -64,6 +64,16 @@ class ReservationController extends Controller {
             $this->redirect("admin/reservations/view?id={$id}");
         }
 
+        $reservation = $this->model->findById($id);
+        if (!$reservation) { http_response_code(404); die('Not found.'); }
+        if ($reservation['status'] !== 'approved') {
+            if ($this->isAjax()) {
+                $this->json(['success' => false, 'message' => 'Reservation must be approved before assignment.'], 422);
+            }
+            $this->flash('error', 'Reservation must be approved before assignment.');
+            $this->redirect("admin/reservations/view?id={$id}");
+        }
+
 
         $this->model->assignVehicle($id, $vehicleId);
         $this->vehicleModel->setStatus($vehicleId, 'in_use');
@@ -81,50 +91,36 @@ class ReservationController extends Controller {
         $this->driverModel->setAvailability($driverId, false);
 
 
-        $this->approvalModel->create([
-            'reservation_id' => $id,
-            'approved_by'    => (int)$_SESSION['user_id'],
-            'approval_level' => 'asd_coordinator',
-            'decision'       => 'approved',
-        ]);
-
         if ($this->isAjax()) {
             $this->json([
                 'success'  => true,
-                'message'  => 'Vehicle and driver assigned. Reservation approved.',
+                'message'  => 'Vehicle and driver assigned successfully.',
                 'redirect' => BASE_URL . "admin/reservations/view?id={$id}",
             ]);
         }
-        $this->flash('success', 'Vehicle and driver assigned. Reservation approved.');
+        $this->flash('success', 'Vehicle and driver assigned successfully.');
         $this->redirect("admin/reservations/view?id={$id}");
     }
 
 
 
     public function pendingApprovals(): void {
-        $this->requireRole('unit_head', 'asd_coordinator', 'admin');
-        $role = $_SESSION['role'];
-
-        $reservations = $role === 'unit_head'
-            ? $this->model->pending()
-            : $this->model->unitApproved();
+        $this->requireRole('staff');
+        $reservations = $this->model->pending();
 
         $this->view('admin.approvals', [
             'reservations' => $reservations,
-            'role'         => $role,
             'flash'        => $this->getFlash('success'),
         ]);
     }
 
     public function decide(): void {
-        $this->requireRole('unit_head', 'asd_coordinator', 'admin');
+        $this->requireRole('staff');
         $this->verifyCsrf();
 
         $id       = (int)($_POST['reservation_id'] ?? 0);
         $decision = $_POST['decision'] ?? '';
         $remarks  = trim($_POST['remarks'] ?? '');
-        $role     = $_SESSION['role'];
-
         if (!in_array($decision, ['approved', 'rejected'], true)) {
             if ($this->isAjax()) {
                 $this->json(['success' => false, 'message' => 'Invalid decision.'], 422);
@@ -132,20 +128,14 @@ class ReservationController extends Controller {
             $this->redirect('approvals');
         }
 
-        $newStatus = match (true) {
-            $decision === 'rejected'                             => 'rejected',
-            $role === 'unit_head' && $decision === 'approved'   => 'unit_approved',
-            $role !== 'unit_head' && $decision === 'approved'   => 'asd_approved',
-            default                                              => 'pending',
-        };
+        $newStatus = $decision === 'approved' ? 'approved' : 'rejected';
 
         $this->model->updateStatus($id, $newStatus, $remarks ?: null);
 
-        $level = ($role === 'unit_head') ? 'unit_head' : 'asd_coordinator';
         $this->approvalModel->create([
             'reservation_id' => $id,
             'approved_by'    => (int)$_SESSION['user_id'],
-            'approval_level' => $level,
+            'approval_level' => 'staff',
             'decision'       => $decision,
             'remarks'        => $remarks ?: null,
         ]);

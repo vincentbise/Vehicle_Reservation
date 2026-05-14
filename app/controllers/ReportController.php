@@ -3,7 +3,7 @@
 class ReportController extends Controller {
 
     public function index(): void {
-        $this->requireRole('admin', 'asd_coordinator');
+        $this->requireRole('admin');
 
         $db   = Database::getInstance();
         $type = $_GET['type'] ?? 'daily';

@@ -44,13 +44,14 @@ include VIEW_PATH . '/layouts/header.php';
                             <th>Type</th>
                             <th>Capacity</th>
                             <th>Year</th>
+                            <th>Assigned Driver</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                     <?php if (empty($vehicles)): ?>
-                        <tr><td colspan="7" class="empty-row">No vehicles registered yet.</td></tr>
+                        <tr><td colspan="8" class="empty-row">No vehicles registered yet.</td></tr>
                     <?php else: ?>
                     <?php foreach ($vehicles as $v): ?>
                         <tr data-status="<?= $v['status'] ?>">
@@ -59,6 +60,7 @@ include VIEW_PATH . '/layouts/header.php';
                             <td><?= htmlspecialchars($v['vehicle_type'] ?? '—') ?></td>
                             <td><?= (int)$v['capacity'] ?> pax</td>
                             <td><?= htmlspecialchars($v['year'] ?? '—') ?></td>
+                            <td><?= htmlspecialchars($v['assigned_driver_name'] ?? '—') ?></td>
                             <td>
                                 <span class="badge badge-<?= $v['status'] ?>">
                                     <?= ucwords(str_replace('_',' ',$v['status'])) ?>

@@ -3,7 +3,13 @@
 class Vehicle extends Model {
 
     public function all(): array {
-        return $this->query('SELECT * FROM vehicles ORDER BY make_model');
+        return $this->query(
+            'SELECT v.*, u.full_name AS assigned_driver_name
+             FROM   vehicles v
+             LEFT JOIN drivers d ON d.driver_id = v.assigned_driver_id
+             LEFT JOIN users u ON u.user_id = d.user_id
+             ORDER  BY v.make_model'
+        );
     }
 
     /** Available vehicles for assignment. */
@@ -20,8 +26,8 @@ class Vehicle extends Model {
 
     public function create(array $data): void {
         $this->execute(
-            'INSERT INTO vehicles (plate_number, make_model, vehicle_type, capacity, year, color, notes)
-             VALUES (?,?,?,?,?,?,?)',
+            'INSERT INTO vehicles (plate_number, make_model, vehicle_type, capacity, year, color, assigned_driver_id, notes)
+             VALUES (?,?,?,?,?,?,?,?)',
             [
                 $data['plate_number'],
                 $data['make_model'],
@@ -29,6 +35,7 @@ class Vehicle extends Model {
                 $data['capacity']     ?? 1,
                 $data['year']         ?? null,
                 $data['color']        ?? null,
+                $data['assigned_driver_id'] ?? null,
                 $data['notes']        ?? null,
             ]
         );
@@ -38,7 +45,7 @@ class Vehicle extends Model {
         $this->execute(
             'UPDATE vehicles
              SET plate_number=?, make_model=?, vehicle_type=?,
-                 capacity=?, year=?, color=?, status=?, notes=?
+                 capacity=?, year=?, color=?, status=?, assigned_driver_id=?, notes=?
              WHERE vehicle_id=?',
             [
                 $data['plate_number'],
@@ -48,6 +55,7 @@ class Vehicle extends Model {
                 $data['year']         ?? null,
                 $data['color']        ?? null,
                 $data['status']       ?? 'available',
+                $data['assigned_driver_id'] ?? null,
                 $data['notes']        ?? null,
                 $id,
             ]

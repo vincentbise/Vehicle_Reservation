@@ -24,7 +24,7 @@
 
 ## Overview
 
-The **USeP Vehicle Reservation System (VRS)** enables university personnel to request, approve, dispatch, and track official vehicle usage. It implements a **multi-level approval workflow** (Requester → Unit Head → ASD Coordinator → Driver) with role-based access control.
+The **USeP Vehicle Reservation System (VRS)** enables university personnel to request, approve, dispatch, and track official vehicle usage. It implements a **streamlined approval workflow** (Requester → Staff → Admin assignment → Driver) with role-based access control.
 
 ---
 
@@ -32,13 +32,13 @@ The **USeP Vehicle Reservation System (VRS)** enables university personnel to re
 
 | Feature | Description |
 |---|---|
-| **Role-Based Access** | 5 roles: Admin, ASD Coordinator, Unit Head, Requester, Driver |
-| **Multi-Level Approval** | Requests flow through Unit Head → ASD Coordinator with remarks |
-| **Vehicle & Driver Assignment** | ASD Coordinator assigns both vehicle and driver upon final approval |
+| **Role-Based Access** | 4 roles: Admin, Staff, Requester, Driver |
+| **Approval Review** | Staff reviews and approves or declines requests with remarks |
+| **Vehicle & Driver Assignment** | Admin assigns both vehicle and driver after staff approval |
 | **Dispatch Tracking** | Drivers log start/end mileage, fuel consumption, and trip notes |
 | **AJAX Live Updates** | All form submissions use AJAX — no page reloads |
 | **Toast Notifications** | Real-time success/error/warning messages without page reload |
-| **Fleet Management** | CRUD operations for vehicles with status tracking |
+| **Fleet Management** | CRUD operations for vehicles with status tracking and driver assignment |
 | **Account Management** | Admin manages user accounts with activate/deactivate toggle |
 | **Reports** | Daily, vehicle utilization, monthly trends, and driver summary |
 | **Responsive Design** | Mobile-friendly with collapsible sidebar |
@@ -148,14 +148,14 @@ Vehicle_Reservation/
 │       ├── auth/
 │       │   └── login.php        # Login page
 │       ├── admin/
-│       │   ├── dashboard.php    # Admin/ASD dashboard
+│       │   ├── dashboard.php    # Admin dashboard
 │       │   ├── accounts.php     # User management
 │       │   ├── account_form.php # Create/edit user
 │       │   ├── vehicles.php     # Fleet list
 │       │   ├── vehicle_form.php # Create/edit vehicle
 │       │   ├── reservations.php # All reservations
 │       │   ├── reservation_view.php # Detail + vehicle/driver assignment
-│       │   ├── approvals.php    # Approve/reject cards
+│       │   ├── approvals.php    # Staff approval cards
 │       │   └── reports.php      # Report viewer
 │       ├── requester/
 │       │   ├── dashboard.php    # Requester home
@@ -291,23 +291,17 @@ Vehicle_Reservation/
 
 ```
 Requester submits request
-        │
-        ▼
+   │
+   ▼
    ┌─────────┐
-   │ PENDING  │
-   └────┬─────┘
-        │ Unit Head reviews
-        ▼
-┌───────────────┐
-│ UNIT_APPROVED │──── or ──── REJECTED
-└───────┬───────┘
-        │ ASD Coordinator reviews
-        │ assigns Vehicle + Driver
-        ▼
-┌──────────────┐
-│ ASD_APPROVED │──── or ──── REJECTED
-└──────┬───────┘
-       │ Driver starts trip
+   │ PENDING │
+   └────┬────┘
+   │ Staff reviews
+   ▼
+┌────────────┐
+│ APPROVED   │──── or ──── REJECTED
+└──────┬─────┘
+       │ Admin assigns Vehicle + Driver
        ▼
 ┌────────────┐
 │ DISPATCHED │
@@ -433,8 +427,7 @@ VRS.notify.info('Session will expire soon.');
 | Role | Username | Password | Description |
 |---|---|---|---|
 | **Administrator** | `admin` | `admin@USeP2026` | Full system access |
-| **ASD Coordinator** | `asdcoord` | `password123` | Approvals + vehicle/driver assignment |
-| **Unit Head** | `unithead` | `password123` | First-level request approval |
+| **Staff** | `staff1` | `password123` | Reviews and approves requests |
 | **Requester** | `msantos` | `password123` | Submit and track reservations |
 | **Driver** | `jreyes` | `password123` | Start trips, log mileage |
 

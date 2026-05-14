@@ -19,9 +19,8 @@ CREATE TABLE IF NOT EXISTS users (
     password_hash VARCHAR(255)     NOT NULL,
     role          ENUM(
                     'admin',
-                    'requester',
-                    'unit_head',
-                    'asd_coordinator',
+                                        'staff',
+                                        'requester',
                     'driver'
                   ) NOT NULL DEFAULT 'requester',
     department    VARCHAR(100)     NULL,
@@ -48,6 +47,7 @@ CREATE TABLE IF NOT EXISTS vehicles (
     capacity      TINYINT UNSIGNED NOT NULL DEFAULT 1,
     year          YEAR             NULL,
     color         VARCHAR(40)      NULL,
+        assigned_driver_id INT UNSIGNED NULL,
     status        ENUM(
                     'available',
                     'in_use',
@@ -61,7 +61,8 @@ CREATE TABLE IF NOT EXISTS vehicles (
 
     PRIMARY KEY (vehicle_id),
     UNIQUE KEY uq_plate   (plate_number),
-    INDEX idx_status      (status)
+    INDEX idx_status      (status),
+    INDEX idx_assigned_driver (assigned_driver_id)
 ) ENGINE=InnoDB;
 
 -- ── 3. Reservations ─────────────────────────────────────────────────
@@ -79,8 +80,7 @@ CREATE TABLE IF NOT EXISTS reservations (
     return_time      TIME          NOT NULL,
     status           ENUM(
                        'pending',
-                       'unit_approved',
-                       'asd_approved',
+                                             'approved',
                        'dispatched',
                        'completed',
                        'rejected',
@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS approvals (
     approval_id      INT UNSIGNED  NOT NULL AUTO_INCREMENT,
     reservation_id   INT UNSIGNED  NOT NULL,
     approved_by      INT UNSIGNED  NOT NULL,
-    approval_level   ENUM('unit_head', 'asd_coordinator') NOT NULL,
+    approval_level   ENUM('staff') NOT NULL,
     decision         ENUM('approved', 'rejected')         NOT NULL,
     remarks          TEXT          NULL,
     decided_at       TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -187,17 +187,17 @@ VALUES
  '$2y$10$1HUxPEzHlzg/vFU3xSfqAOjZdA.irdReUT8fHcMdr8W.8AbhJOj9u',
  'admin', 'Administrative Services Division', '082-227-8192'),
 
--- ASD Coordinator  (password: password123)
+-- Staff  (password: password123)
 ('EMP-0002', 'Maria Clara Reyes', 'mclara.reyes@usep.edu.ph',
- 'asdcoord',
+ 'staff1',
  '$2y$10$YarHdN2Q5BHpsXhTK2ae/.mceB.hPAV3Q8k9eEZ7hkjvIQ6jIrsZW',
- 'asd_coordinator', 'Administrative Services Division', '09171234567'),
+ 'staff', 'Administrative Services Division', '09171234567'),
 
--- Unit Head  (password: password123)
+-- Staff  (password: password123)
 ('EMP-0003', 'Jose Santos Jr.', 'jose.santos@usep.edu.ph',
- 'unithead',
+ 'staff2',
  '$2y$10$YarHdN2Q5BHpsXhTK2ae/.mceB.hPAV3Q8k9eEZ7hkjvIQ6jIrsZW',
- 'unit_head', 'College of Engineering and Technology', '09281234567'),
+ 'staff', 'College of Engineering and Technology', '09281234567'),
 
 -- Requester  (password: password123)
 ('EMP-0004', 'Ana Marie Gonzales', 'ana.gonzales@usep.edu.ph',

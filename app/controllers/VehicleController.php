@@ -3,13 +3,15 @@
 class VehicleController extends Controller {
 
     private Vehicle $model;
+    private Driver  $driverModel;
 
     public function __construct() {
         $this->model = new Vehicle();
+        $this->driverModel = new Driver();
     }
 
     public function index(): void {
-        $this->requireRole('admin', 'asd_coordinator');
+        $this->requireRole('admin');
         $this->view('admin.vehicles', [
             'vehicles' => $this->model->all(),
             'flash'    => $this->getFlash('success'),
@@ -17,16 +19,26 @@ class VehicleController extends Controller {
     }
 
     public function create(): void {
-        $this->requireRole('admin', 'asd_coordinator');
+        $this->requireRole('admin');
         $this->view('admin.vehicle_form', [
             'vehicle' => null,
+            'drivers' => $this->driverModel->all(),
             'error'   => $this->getFlash('error'),
         ]);
     }
 
     public function store(): void {
-        $this->requireRole('admin', 'asd_coordinator');
+        $this->requireRole('admin');
         $this->verifyCsrf();
+
+        $assignedDriverId = (int)($_POST['assigned_driver_id'] ?? 0);
+        if ($assignedDriverId > 0 && !$this->driverModel->findById($assignedDriverId)) {
+            if ($this->isAjax()) {
+                $this->json(['success' => false, 'message' => 'Selected driver is invalid.'], 422);
+            }
+            $this->flash('error', 'Selected driver is invalid.');
+            $this->redirect('admin/vehicles/create');
+        }
 
         $data = [
             'plate_number' => $this->postInput('plate_number'),
@@ -35,6 +47,7 @@ class VehicleController extends Controller {
             'capacity'     => (int)($_POST['capacity'] ?? 0),
             'year'         => $_POST['year']  ?? null,
             'color'        => $this->postInput('color'),
+            'assigned_driver_id' => $assignedDriverId > 0 ? $assignedDriverId : null,
             'notes'        => $this->postInput('notes'),
         ];
 
@@ -68,18 +81,30 @@ class VehicleController extends Controller {
     }
 
     public function edit(): void {
-        $this->requireRole('admin', 'asd_coordinator');
+        $this->requireRole('admin');
         $id = (int)($_GET['id'] ?? 0);
         $vehicle = $this->model->findById($id);
         if (!$vehicle) { http_response_code(404); die('Vehicle not found.'); }
-        $this->view('admin.vehicle_form', ['vehicle' => $vehicle, 'error' => null]);
+        $this->view('admin.vehicle_form', [
+            'vehicle' => $vehicle,
+            'drivers' => $this->driverModel->all(),
+            'error'   => null,
+        ]);
     }
 
     public function update(): void {
-        $this->requireRole('admin', 'asd_coordinator');
+        $this->requireRole('admin');
         $this->verifyCsrf();
 
         $id   = (int)($_POST['vehicle_id'] ?? 0);
+        $assignedDriverId = (int)($_POST['assigned_driver_id'] ?? 0);
+        if ($assignedDriverId > 0 && !$this->driverModel->findById($assignedDriverId)) {
+            if ($this->isAjax()) {
+                $this->json(['success' => false, 'message' => 'Selected driver is invalid.'], 422);
+            }
+            $this->flash('error', 'Selected driver is invalid.');
+            $this->redirect('admin/vehicles');
+        }
         $data = [
             'plate_number' => $this->postInput('plate_number'),
             'make_model'   => $this->postInput('make_model'),
@@ -88,6 +113,7 @@ class VehicleController extends Controller {
             'year'         => $_POST['year']   ?? null,
             'color'        => $this->postInput('color'),
             'status'       => $_POST['status'] ?? 'available',
+            'assigned_driver_id' => $assignedDriverId > 0 ? $assignedDriverId : null,
             'notes'        => $this->postInput('notes'),
         ];
 

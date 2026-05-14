@@ -48,7 +48,7 @@ class UserController extends Controller {
         }
 
 
-        $validRoles = ['admin','asd_coordinator','unit_head','requester','driver'];
+        $validRoles = ['admin','staff','requester','driver'];
         if (!in_array($data['role'], $validRoles, true)) {
             if ($this->isAjax()) {
                 $this->json(['success' => false, 'message' => 'Invalid role selected.'], 422);

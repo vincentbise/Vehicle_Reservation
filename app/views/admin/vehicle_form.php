@@ -1,5 +1,6 @@
 <?php
 $isEdit    = !empty($vehicle);
+$assignedDriverId = is_array($vehicle) ? ($vehicle['assigned_driver_id'] ?? null) : null;
 $pageTitle = $isEdit ? 'Edit Vehicle' : 'Add Vehicle';
 include VIEW_PATH . '/layouts/header.php';
 ?>
@@ -76,6 +77,19 @@ include VIEW_PATH . '/layouts/header.php';
                         <input type="text" id="color" name="color"
                                value="<?= htmlspecialchars($vehicle['color'] ?? '') ?>"
                                placeholder="e.g. White"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="assigned_driver_id">Assigned Driver</label>
+                        <select id="assigned_driver_id" name="assigned_driver_id">
+                            <option value="">— Unassigned —</option>
+                            <?php foreach (($drivers ?? []) as $d): ?>
+                            <option value="<?= (int)$d['driver_id'] ?>"
+                                <?= (int)$assignedDriverId === (int)$d['driver_id'] ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($d['full_name'] . ' (License: ' . $d['license_no'] . ')') ?>
+                            </option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
 
                     <?php if ($isEdit): ?>

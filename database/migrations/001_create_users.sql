@@ -8,9 +8,8 @@ CREATE TABLE IF NOT EXISTS users (
     password_hash VARCHAR(255)     NOT NULL,
     role          ENUM(
                     'admin',
-                    'requester',
-                    'unit_head',
-                    'asd_coordinator',
+                                        'staff',
+                                        'requester',
                     'driver'
                   ) NOT NULL DEFAULT 'requester',
     department    VARCHAR(100)     NULL,

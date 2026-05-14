@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS vehicles (
     capacity      TINYINT UNSIGNED NOT NULL DEFAULT 1,
     year          YEAR             NULL,
     color         VARCHAR(40)      NULL,
+    assigned_driver_id INT UNSIGNED NULL,
     status        ENUM(
                     'available',
                     'in_use',
@@ -20,5 +21,6 @@ CREATE TABLE IF NOT EXISTS vehicles (
 
     PRIMARY KEY (vehicle_id),
     UNIQUE KEY uq_plate   (plate_number),
-    INDEX idx_status      (status)
+    INDEX idx_status      (status),
+    INDEX idx_assigned_driver (assigned_driver_id)
 ) ENGINE=InnoDB;

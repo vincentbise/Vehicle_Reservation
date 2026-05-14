@@ -39,7 +39,7 @@ class Reservation extends Model {
         );
     }
 
-    /** Pending reservations (for unit_head review). */
+    /** Pending reservations (for staff review). */
     public function pending(): array {
         return $this->query(
             'SELECT r.*, u.full_name AS requester_name, u.department
@@ -51,15 +51,15 @@ class Reservation extends Model {
         );
     }
 
-    /** Unit-approved reservations (for ASD coordinator review). */
-    public function unitApproved(): array {
+    /** Approved reservations (ready for assignment). */
+    public function approved(): array {
         return $this->query(
             'SELECT r.*, u.full_name AS requester_name, u.department
              FROM   reservations r
              JOIN   users u ON u.user_id = r.requester_id
              WHERE  r.status = ?
              ORDER  BY r.requested_at ASC',
-            ['unit_approved']
+            ['approved']
         );
     }
 
@@ -87,11 +87,11 @@ class Reservation extends Model {
         );
     }
 
-    /** Assign a vehicle and set status to asd_approved. */
+    /** Assign a vehicle and keep status approved. */
     public function assignVehicle(int $reservationId, int $vehicleId): void {
         $this->execute(
             'UPDATE reservations SET vehicle_id = ?, status = ? WHERE reservation_id = ?',
-            [$vehicleId, 'asd_approved', $reservationId]
+            [$vehicleId, 'approved', $reservationId]
         );
     }
 
@@ -146,7 +146,7 @@ class Reservation extends Model {
         );
     }
 
-    /** Active trips (dispatched / asd_approved) for a specific driver via dispatch_logs. */
+    /** Active trips (approved / dispatched) for a specific driver via dispatch_logs. */
     public function activeForDriver(int $driverId): array {
         return $this->query(
             'SELECT r.*, v.make_model, v.plate_number,
@@ -157,7 +157,7 @@ class Reservation extends Model {
              WHERE  dl.driver_id = ?
                AND  r.status IN (?,?)
              ORDER  BY r.departure_date ASC',
-            [$driverId, 'asd_approved', 'dispatched']
+            [$driverId, 'approved', 'dispatched']
         );
     }
 }

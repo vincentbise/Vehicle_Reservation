@@ -34,7 +34,7 @@ include VIEW_PATH . '/layouts/header.php';
                     <div><strong>Vehicle:</strong> <?= htmlspecialchars($t['make_model'] ?? '—') ?> (<?= htmlspecialchars($t['plate_number'] ?? '—') ?>)</div>
                 </div>
 
-                <?php if ($t['status'] === 'asd_approved'): ?>
+                <?php if ($t['status'] === 'approved'): ?>
                     <form method="POST" action="<?= BASE_URL ?>driver/dispatch"
                           data-ajax-url="<?= BASE_URL ?>api/driver/dispatch"
                           class="ajax-driver-form">

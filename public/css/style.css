@@ -718,16 +718,10 @@ a.nav-btn.active {
     border: 1px solid #fed7aa;
 }
 
-.badge-unit_approved {
+.badge-approved {
     background: #eff6ff;
     color: #1d4ed8;
     border: 1px solid #bfdbfe;
-}
-
-.badge-asd_approved {
-    background: #f0fdf4;
-    color: #166534;
-    border: 1px solid #bbf7d0;
 }
 
 .badge-dispatched {
@@ -794,16 +788,10 @@ a.nav-btn.active {
     border: 1px solid #fecaca;
 }
 
-.role-asd_coordinator {
+.role-staff {
     background: #eff6ff;
     color: #1d4ed8;
     border: 1px solid #bfdbfe;
-}
-
-.role-unit_head {
-    background: #faf5ff;
-    color: #7c3aed;
-    border: 1px solid #ddd6fe;
 }
 
 .role-requester {

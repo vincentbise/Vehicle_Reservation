@@ -21,8 +21,7 @@ include VIEW_PATH . '/layouts/header.php';
         <div class="filter-tabs" id="res-filter">
             <button class="filter-tab active" data-filter="all">All</button>
             <button class="filter-tab" data-filter="pending">Pending</button>
-            <button class="filter-tab" data-filter="unit_approved">Unit Approved</button>
-            <button class="filter-tab" data-filter="asd_approved">ASD Approved</button>
+            <button class="filter-tab" data-filter="approved">Approved</button>
             <button class="filter-tab" data-filter="dispatched">Dispatched</button>
             <button class="filter-tab" data-filter="completed">Completed</button>
             <button class="filter-tab" data-filter="rejected">Rejected</button>

@@ -13,8 +13,7 @@ CREATE TABLE IF NOT EXISTS reservations (
     return_time      TIME          NOT NULL,
     status           ENUM(
                        'pending',
-                       'unit_approved',
-                       'asd_approved',
+                                             'approved',
                        'dispatched',
                        'completed',
                        'rejected',

@@ -76,8 +76,7 @@ include VIEW_PATH . '/layouts/header.php';
                             <?php
                             $roles = [
                                 'admin'           => 'Administrator',
-                                'asd_coordinator' => 'ASD Coordinator',
-                                'unit_head'       => 'Unit Head',
+                                'staff'           => 'Staff',
                                 'requester'       => 'Requester',
                                 'driver'          => 'Driver',
                             ];

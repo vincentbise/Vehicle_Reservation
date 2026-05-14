@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS approvals (
     approval_id      INT UNSIGNED  NOT NULL AUTO_INCREMENT,
     reservation_id   INT UNSIGNED  NOT NULL,
     approved_by      INT UNSIGNED  NOT NULL,
-    approval_level   ENUM('unit_head', 'asd_coordinator') NOT NULL,
+    approval_level   ENUM('staff') NOT NULL,
     decision         ENUM('approved', 'rejected')         NOT NULL,
     remarks          TEXT          NULL,
     decided_at       TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,

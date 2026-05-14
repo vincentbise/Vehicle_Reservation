@@ -42,9 +42,9 @@ include VIEW_PATH . '/layouts/header.php';
                 </dl>
             </div>
 
-            <!-- Assign Vehicle & Driver (ASD only, when unit_approved) -->
-            <?php if ($reservation['status'] === 'unit_approved'
-                   && in_array($_SESSION['role'], ['admin','asd_coordinator'], true)): ?>
+            <!-- Assign Vehicle & Driver (Admin only, when approved) -->
+            <?php if ($reservation['status'] === 'approved'
+                   && (($_SESSION['role'] ?? '') === 'admin')): ?>
             <div class="detail-section">
                 <h3>Assign Vehicle & Driver</h3>
                 <form method="POST" action="<?= BASE_URL ?>admin/reservations/assign"
@@ -81,7 +81,7 @@ include VIEW_PATH . '/layouts/header.php';
                         </select>
                     </div>
 
-                    <button type="submit" class="btn-primary">Assign & Approve</button>
+                    <button type="submit" class="btn-primary">Assign Vehicle &amp; Driver</button>
                 </form>
             </div>
             <?php endif; ?>

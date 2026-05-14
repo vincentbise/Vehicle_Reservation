@@ -1,9 +1,8 @@
 <?php
 $pageTitle = 'Pending Approvals';
 include VIEW_PATH . '/layouts/header.php';
-$isUnitHead = ($_SESSION['role'] === 'unit_head');
-$level      = $isUnitHead ? 'unit_head' : 'asd_coordinator';
-$levelLabel = $isUnitHead ? 'Unit Head Review' : 'ASD Coordinator Review';
+$levelLabel = 'Staff Review';
+$levelDesc  = 'Review and approve or reject pending reservation requests.';
 ?>
 
 <div class="wrap">
@@ -12,11 +11,7 @@ $levelLabel = $isUnitHead ? 'Unit Head Review' : 'ASD Coordinator Review';
         <section class="hero">
             <div>
                 <h1><?= $levelLabel ?></h1>
-                <p>
-                    <?= $isUnitHead
-                        ? 'Review and approve or reject pending reservation requests from your unit.'
-                        : 'Review unit-approved requests and make the final approval decision.' ?>
-                </p>
+                <p><?= $levelDesc ?></p>
             </div>
         </section>
 

@@ -84,8 +84,7 @@ class AuthController extends Controller {
     private function getRedirectUrl(string $role): string {
         $map = [
             'admin'           => 'admin/dashboard',
-            'asd_coordinator' => 'admin/dashboard',
-            'unit_head'       => 'approvals',
+            'staff'           => 'approvals',
             'requester'       => 'requester/dashboard',
             'driver'          => 'driver/dashboard',
         ];

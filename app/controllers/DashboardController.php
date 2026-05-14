@@ -3,7 +3,7 @@
 class DashboardController extends Controller {
 
     public function adminDashboard(): void {
-        $this->requireRole('admin', 'asd_coordinator');
+        $this->requireRole('admin');
 
         $reservationModel = new Reservation();
         $vehicleModel     = new Vehicle();
