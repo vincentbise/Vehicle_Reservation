@@ -2,14 +2,17 @@
 $role = $_SESSION['role'] ?? '';
 ?>
 <aside class="side" id="sideNav">
-    <?php if ($role === 'admin'): ?>
+    <?php if (in_array($role, ['admin', 'asd_coordinator'])): ?>
         <a class="nav-btn" href="<?= BASE_URL ?>admin/dashboard">Dashboard</a>
         <a class="nav-btn" href="<?= BASE_URL ?>admin/reservations">Reservations</a>
+        <a class="nav-btn" href="<?= BASE_URL ?>approvals">Approvals</a>
         <a class="nav-btn" href="<?= BASE_URL ?>admin/vehicles">Vehicles</a>
+        <?php if ($role === 'admin'): ?>
         <a class="nav-btn" href="<?= BASE_URL ?>admin/accounts">Accounts</a>
+        <?php endif; ?>
         <a class="nav-btn" href="<?= BASE_URL ?>admin/reports">Reports</a>
 
-    <?php elseif ($role === 'staff'): ?>
+    <?php elseif ($role === 'unit_head'): ?>
         <a class="nav-btn" href="<?= BASE_URL ?>approvals">Pending Approvals</a>
 
     <?php elseif ($role === 'requester'): ?>

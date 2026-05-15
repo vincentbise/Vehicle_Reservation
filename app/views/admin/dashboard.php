@@ -31,7 +31,7 @@ include VIEW_PATH . '/layouts/header.php';
                 <div class="num"><?= $availableVehicles ?></div>
             </article>
             <article class="stat">
-                <img src="<?= BASE_URL ?>images/account.png" class="stat-icon" alt="Drivers"/>
+                <img src="<?= BASE_URL ?>images/driver.png" class="stat-icon" alt="Drivers"/>
                 <h4>Available Drivers</h4>
                 <div class="num"><?= $availableDrivers ?></div>
             </article>

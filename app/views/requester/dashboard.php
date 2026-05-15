@@ -38,7 +38,7 @@ $rejected  = count(array_filter($requests, fn($r) => in_array($r['status'], ['re
                 <div class="num"><?= $completed ?></div>
             </article>
             <article class="stat">
-                <img src="<?= BASE_URL ?>images/account.png" class="stat-icon" alt="Rejected"/>
+                <img src="<?= BASE_URL ?>images/rejected.png" class="stat-icon" alt="Rejected"/>
                 <h4>Rejected / Cancelled</h4>
                 <div class="num"><?= $rejected ?></div>
             </article>
